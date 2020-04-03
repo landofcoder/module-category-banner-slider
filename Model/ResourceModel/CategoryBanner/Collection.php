@@ -41,4 +41,5 @@ class Collection extends AbstractCollection
         $this->performAddStoreFilter($store, $withAdmin);
         return $this;
     }
+
 }
