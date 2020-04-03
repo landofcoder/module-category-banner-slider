@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * di
+ *
+ * @copyright Copyright © 2020 landofcoder. All rights reserved.
+ * @author    landofcoder@gmail.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lof_category_banner</argument>
+            <argument name="resourceModel" xsi:type="string">Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="lof_categorybannerslider_categorybanner_listing_data_source" xsi:type="string">Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
