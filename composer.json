@@ -1,0 +1,22 @@
+{
+    "name": "landofcoder/module-categorybannerslider",
+    "description": "Magento 2 Category Banner extension allows you to add banner images on category pages and display them in an attractive slider. Its extensive features include slider themes, animation effects, slider duration, pause on hover, pagination and auto play etc. You can also configure banner dimensions, banner title and content in the slider.",
+    "type": "magento2-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Landofcoder",
+            "email": "info@landofcoder.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Lof\\CategoryBannerSlider\\": ""
+        },
+        "files": [
+            "registration.php"
+        ]
+    }
+}
