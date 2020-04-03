@@ -1,1 +1,0 @@
-# module-category-banner-slider
