@@ -11,7 +11,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 
-class CategoryBanner extends Action
+class Index extends Action
 {
     /**
      * @var PageFactory

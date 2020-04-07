@@ -57,13 +57,13 @@ abstract class AbstractCollection extends \Magento\Framework\Model\ResourceModel
      * @param string|null $linkField
      * @return void
      */
-    protected function performAfterLoad($tableName, $linkField)
+    protected function performAfterLoadBanner($tableName, $linkField)
     {
         $linkedIds = $this->getColumnValues($linkField);
         if (count($linkedIds)) {
             $connection = $this->getConnection();
-            $select = $connection->select()->from(['lof_category_banner_store' => $this->getTable($tableName)])
-                ->where('lof_category_banner_store.' . $linkField . ' IN (?)', $linkedIds);
+            $select = $connection->select()->from(['category_banner_store' => $this->getTable($tableName)])
+                ->where('category_banner_store.' . $linkField . ' IN (?)', $linkedIds);
             $result = $connection->fetchAll($select);
             if ($result) {
                 $storesData = [];

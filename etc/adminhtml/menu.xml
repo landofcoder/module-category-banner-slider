@@ -9,6 +9,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add action="lof_categorybannerslider/categorybanner/categorybanner" id="Lof_CategoryBannerSlider::lof_categorybannerslider_categorybanner" parent="Lof_All::license" module="Lof_CategoryBannerSlider" resource="Lof_CategoryBannerSlider::lof_categorybannerslider_categorybanner" sortOrder="0" title="Category Banner Slider"/>
+        <add action="lof_categorybannerslider/categorybanner/index" id="Lof_CategoryBannerSlider::lof_categorybannerslider_categorybanner" parent="Lof_All::license" module="Lof_CategoryBannerSlider" resource="Lof_CategoryBannerSlider::CategoryBanner" sortOrder="0" title="Category Banner Slider"/>
     </menu>
 </config>
