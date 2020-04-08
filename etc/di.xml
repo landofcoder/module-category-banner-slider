@@ -39,4 +39,14 @@
             </argument>
         </arguments>
     </type>
+    <type name="Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">lof_category_banner</argument>
+            <argument name="eventPrefix" xsi:type="string">lof_categorybannerslider_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">categorybannerslider_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">
+                Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner
+            </argument>
+        </arguments>
+    </type>
 </config>

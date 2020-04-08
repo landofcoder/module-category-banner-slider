@@ -26,6 +26,12 @@ class CategoryBanner extends \Magento\Framework\Model\AbstractModel
     const CACHE_TAG = 'category_banner';
 
     /**
+     * CategoryBanner status
+     */
+    const STATUS_ENABLED = 1;
+    const STATUS_DISABLED = 0;
+
+    /**
      * @var string
      */
     protected $_cacheTag = 'category_banner';
@@ -45,5 +51,13 @@ class CategoryBanner extends \Magento\Framework\Model\AbstractModel
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
+
+    /**
+     * @return array
+     */
+    public function getAvailableStatuses()
+    {
+        return [self::STATUS_ENABLED => __('Enabled'), self::STATUS_DISABLED => __('Disabled')];
     }
 }

@@ -53,7 +53,34 @@
         <settings>
             <label>Banner Information</label>
         </settings>
-        <field formElement="input" name="title" sortOrder="10">
+        <!-- Field Status-->
+        <field name="status" sortOrder="10" formElement="checkbox">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">page</item>
+                    <item name="default" xsi:type="number">1</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>boolean</dataType>
+                <label translate="true">Enable</label>
+                <dataScope>status</dataScope>
+            </settings>
+            <formElements>
+                <checkbox>
+                    <settings>
+                        <valueMap>
+                            <map name="false" xsi:type="number">0</map>
+                            <map name="true" xsi:type="number">1</map>
+                        </valueMap>
+                        <prefer>toggle</prefer>
+                    </settings>
+                </checkbox>
+            </formElements>
+        </field>
+        <!--End Field Status-->
+        <!-- Field title-->
+        <field formElement="input" name="title" sortOrder="20">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">CategoryBanner</item>
@@ -64,11 +91,13 @@
                 <label translate="true">Banner Title</label>
                 <dataScope>title</dataScope>
                 <validation>
-                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
                 </validation>
             </settings>
         </field>
-        <field formElement="input" name="priority" sortOrder="20">
+        <!--End Field title-->
+        <!-- Field Priority-->
+        <field formElement="input" name="priority" sortOrder="30">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">CategoryBanner</item>
@@ -83,7 +112,9 @@
                 </validation>
             </settings>
         </field>
-        <field name="storeviews" formElement="multiselect" sortOrder="30">
+        <!--End Field Priority-->
+        <!-- Field storeview-->
+        <field name="storeviews" formElement="multiselect" sortOrder="40">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">banner</item>
@@ -101,12 +132,35 @@
             <formElements>
                 <multiselect>
                     <settings>
-                        <options class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CategoryBanner\StoreViewOptions"/>
+                        <options
+                                class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CategoryBanner\StoreViewOptions"/>
                     </settings>
                 </multiselect>
             </formElements>
         </field>
-        <field name="select_example" formElement="select" sortOrder="40">
+        <!--End Field storeview-->
+        <!-- Field customer_group -->
+        <field name="customer_group" formElement="multiselect">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Enabled for Customer Groups</label>
+                <dataScope>customer_group_id</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+            </settings>
+            <formElements>
+                <multiselect>
+                    <settings>
+                        <options
+                                class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CategoryBanner\CustomerGroup"/>
+                    </settings>
+                </multiselect>
+            </formElements>
+        </field>
+        <!-- End Field customer_group -->
+        <!-- Field Banner Position-->
+        <field name="banner_position" formElement="select" sortOrder="50">
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">Banner Position</label>
@@ -134,74 +188,27 @@
                 </select>
             </formElements>
         </field>
-        <textarea name="description">
+        <!-- End Field Banner Position-->
+        <!-- Textarea description-->
+        <textarea name="description" sortOrder="60">
             <settings>
                 <cols>15</cols>
                 <rows>5</rows>
                 <label translate="true">Description</label>
                 <dataScope>description</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
             </settings>
         </textarea>
-        <field name="enable" formElement="checkbox">
-            <settings>
-                <label translate="true">Enabled</label>
-            </settings>
-            <formElements>
-                <checkbox>
-                    <settings>
-                        <prefer>toggle</prefer>
-                        <valueMap>
-                            <map name="false" xsi:type="boolean">false</map>
-                            <map name="true" xsi:type="boolean">true</map>
-                        </valueMap>
-                    </settings>
-                </checkbox>
-            </formElements>
-        </field>
-        <!-- Fieldset General Slider Settings-->
-        <fieldset name="general_slider_settings">
-            <settings>
-                <collapsible>true</collapsible>
-                <label translate="true">General Slider Settings</label>
-            </settings>
-            <field name="my_field">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">My Field</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
-                    </item>
-                </argument>
-            </field>
-        </fieldset>
-        <!-- Fieldset Customer -->
-        <fieldset name="customer_group">
-            <settings>
-                <collapsible>true</collapsible>
-                <label translate="true">Customer Group</label>
-            </settings>
-            <field name="customer_group" formElement="multiselect">
-                <settings>
-                    <dataType>text</dataType>
-                    <label translate="true">Enable Customer Groups</label>
-                    <dataScope>customer_group_id</dataScope>
-                </settings>
-                <formElements>
-                    <multiselect>
-                        <settings>
-                            <options class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CategoryBanner\CustomerGroup" />
-                        </settings>
-                    </multiselect>
-                </formElements>
-            </field>
-        </fieldset>
+        <!-- End Textarea description-->
         <!-- Fieldset images -->
         <fieldset name="images">
             <settings>
                 <collapsible>true</collapsible>
                 <label translate="true">Images</label>
             </settings>
+            <!-- Field images -->
             <field name="images">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
@@ -219,23 +226,114 @@
                     </item>
                 </argument>
             </field>
+            <!-- End Field images -->
         </fieldset>
+        <!-- End Fieldset images -->
+        <!-- Fieldset General Slider Settings-->
+        <fieldset name="general_slider_settings">
+            <settings>
+                <collapsible>true</collapsible>
+                <label translate="true">General Slider Settings</label>
+            </settings>
+            <!-- Field select_slider  -->
+            <field name="select_slider" formElement="select" sortOrder="10">
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Select Slider</label>
+                    <dataScope>select_example</dataScope>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options>
+                                <option name="1" xsi:type="array">
+                                    <item name="value" xsi:type="string">0</item>
+                                    <item name="label" xsi:type="string">No Slider</item>
+                                </option>
+                                <option name="2" xsi:type="array">
+                                    <item name="value" xsi:type="string">1</item>
+                                    <item name="label" xsi:type="string">Simple Slider</item>
+                                </option>
+                                <option name="3" xsi:type="array">
+                                    <item name="value" xsi:type="string">2</item>
+                                    <item name="label" xsi:type="string">Camera Slider</item>
+                                </option>
+                            </options>
+                            <caption translate="true">-- Please Select --</caption>
+                        </settings>
+                    </select>
+                </formElements>
+            </field>
+            <!--End Field select_slider  -->
+            <!-- Field banner_width-->
+            <field formElement="input" name="banner_width" sortOrder="20">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">CategoryBanner</item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Banner Width</label>
+                    <dataScope>title</dataScope>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                </settings>
+            </field>
+            <!--End Field banner_width-->
+            <!-- Field banner_width-->
+            <field formElement="input" name="banner_height" sortOrder="30">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">CategoryBanner</item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>text</dataType>
+                    <label translate="true">Banner Height</label>
+                    <dataScope>title</dataScope>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                </settings>
+            </field>
+            <!--End Field banner_width-->
+        </fieldset>
+        <!-- End Fieldset  General Slider Settings -->
         <!-- Fieldset Attach With Categories -->
         <fieldset name="attach_categories">
             <settings>
                 <collapsible>true</collapsible>
                 <label translate="true">Attach With Categories</label>
             </settings>
-            <field name="my_field">
+            <field name="category_id">
                 <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">Magento\Catalog\Ui\Component\Product\Form\Categories\Options</item>
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">My Field</item>
+                        <item name="label" xsi:type="string" translate="true">Category</item>
+                        <item name="componentType" xsi:type="string">field</item>
+                        <item name="formElement" xsi:type="string">multiselect</item>
                         <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataType" xsi:type="string">text</item>
-                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="dataScope" xsi:type="string">category_id</item>
+                        <item name="component" xsi:type="string">Magento_Catalog/js/components/new-category</item>
+                        <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                        <item name="filterOptions" xsi:type="boolean">true</item>
+                        <item name="showCheckbox" xsi:type="boolean">true</item>
+                        <item name="disableLabel" xsi:type="boolean">true</item>
+                        <item name="multiple" xsi:type="boolean">true</item>
+                        <item name="levelsVisibility" xsi:type="number">1</item>
+                        <item name="required" xsi:type="boolean">false</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                        <item name="listens" xsi:type="array">
+                            <item name="${ $.namespace }.${ $.namespace }:responseData" xsi:type="string">setParsed</item>
+                        </item>
                     </item>
                 </argument>
             </field>
         </fieldset>
+        <!-- End Fieldset Attach With Categories -->
     </fieldset>
 </form>

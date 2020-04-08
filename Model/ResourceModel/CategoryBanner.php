@@ -8,7 +8,6 @@
 
 namespace Lof\CategoryBannerSlider\Model\ResourceModel;
 
-use Lof\ProductTags\Model\ResourceModel\Tag;
 use Magento\Framework\Model\AbstractModel;
 
 /**
@@ -20,6 +19,11 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
 {
 
     /**
+     * @var string
+     */
+    protected $_BannerCategoryTable = '';
+
+    /**
      * Define resource model
      *
      * @return void
@@ -28,6 +32,13 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
     {
         $this->_init('lof_category_banner', 'banner_id');
     }
+
+    /**
+     * @param AbstractModel $object
+     * @param mixed $value
+     * @param null $field
+     * @return \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+     */
     public function load(\Magento\Framework\Model\AbstractModel $object, $value, $field = null)
     {
         if (!is_numeric($value) && is_null($field)) {
@@ -59,7 +70,7 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
     /**
      * Save Category Banner Store
      */
-    protected function _saveTagStores($banner)
+    protected function _saveCategoryBannerStores($banner)
     {
         $oldStores = $this->lookupStoreIds($banner->getId());
         $newStores = (array)$banner->getStores();
@@ -83,6 +94,55 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
         return $this;
     }
 
+
+    /**
+     * @param $bannerId
+     * @return array
+     */
+    public function getCategoryBannerCategory($bannerId)
+    {
+        $connection = $this->getConnection();
+        $select = $connection->select()->from(
+            $this->getTable('lof_category_banner_category'),
+            'category_id'
+        )
+            ->where(
+                'banner_id = ?',
+                (int)$bannerId
+            );
+        return $connection->fetchCol($select);
+    }
+
+
+    /**
+     * @param $banner
+     * @return $this
+     */
+    protected function _saveBannerCategory($banner)
+    {
+        $oldCategory = $this->getCategoryBannerCategory($banner->getId());
+        $newCategory = (array)$banner->getCategory();
+        if (empty($newCategory)) {
+            $newCategory = (array)$banner->getCategoryId();
+        }
+        $table = $this->getTable('lof_category_banner_category');
+        $insert = array_diff($newCategory, $oldCategory);
+        $delete = array_diff($oldCategory, $newCategory);
+        if ($delete) {
+            $where = ['banner_id = ?' => (int)$banner->getId(), 'category_id IN (?)' => $delete];
+            $this->getConnection()->delete($table, $where);
+        }
+        if ($insert) {
+            $data = [];
+            foreach ($insert as $categoryId) {
+                $data[] = ['banner_id' => (int)$banner->getId(), 'category_id' => (int)$categoryId];
+            }
+            $this->getConnection()->insertMultiple($table, $data);
+        }
+        return $this;
+    }
+
+
     /**
      * Process page data after saving
      *
@@ -92,7 +152,13 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
      */
     protected function _afterSave($bannerId)
     {
-        $this->_saveTagStores($bannerId);
+        $this->_saveBannerCategory($bannerId);
+        $this->_saveCategoryBannerStores($bannerId);
         return parent::_afterSave($bannerId);
     }
+
+
+
+
+
 }

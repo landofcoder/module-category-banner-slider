@@ -15,16 +15,23 @@ class IsActive implements OptionSourceInterface
     /**
      * @var \Lof\CategoryBannerSlider\Model\CategoryBanner
      */
-    protected $_categoryBanner;
+    protected $categoryBanner;
 
+    /**
+     * IsActive constructor.
+     * @param \Lof\CategoryBannerSlider\Model\CategoryBanner $categoryBanner
+     */
     public function __construct(\Lof\CategoryBannerSlider\Model\CategoryBanner $categoryBanner)
     {
-        $this->_categoryBanner = $categoryBanner;
+        $this->categoryBanner = $categoryBanner;
     }
 
+    /**
+     * @return array
+     */
     public function toOptionArray()
     {
-        $availableOptions = $this->_categoryBanner->getAvailableStatuses();
+        $availableOptions = $this->categoryBanner->getAvailableStatuses();
         $options = [];
         foreach ($availableOptions as $key => $value) {
             $options[] = [
