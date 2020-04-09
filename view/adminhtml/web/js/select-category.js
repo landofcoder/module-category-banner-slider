@@ -9,7 +9,9 @@ define([
     'Magento_Ui/js/form/element/ui-select'
 ], function (Select) {
     'use strict';
+
     return Select.extend({
+
         /**
          * Parse data and set it to options.
          *
@@ -18,13 +20,16 @@ define([
          */
         setParsed: function (data) {
             var option = this.parseData(data);
+
             if (data.error) {
                 return this;
             }
+
             this.options([]);
             this.setOption(option);
             this.set('newOption', option);
         },
+
         /**
          * Normalize option object.
          *
@@ -33,8 +38,11 @@ define([
          */
         parseData: function (data) {
             return {
-                value: data.category.entity_id,
-                label: data.category.name
+                'category_id': data.category['category_id'],
+                level: data.category.level,
+                value: data.category['banner_id'],
+                label: data.category.name,
+                parent: data.category.parent,
             };
         }
     });

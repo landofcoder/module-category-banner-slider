@@ -157,8 +157,4 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
         return parent::_afterSave($bannerId);
     }
 
-
-
-
-
 }

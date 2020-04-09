@@ -307,31 +307,38 @@
                 <collapsible>true</collapsible>
                 <label translate="true">Attach With Categories</label>
             </settings>
-            <field name="category_id">
+            <field name="category_id" component="Lof_CategoryBannerSlider/js/select-category" sortOrder="20" formElement="select">
                 <argument name="data" xsi:type="array">
-                    <item name="options" xsi:type="object">Magento\Catalog\Ui\Component\Product\Form\Categories\Options</item>
                     <item name="config" xsi:type="array">
-                        <item name="label" xsi:type="string" translate="true">Category</item>
-                        <item name="componentType" xsi:type="string">field</item>
-                        <item name="formElement" xsi:type="string">multiselect</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="dataScope" xsi:type="string">category_id</item>
-                        <item name="component" xsi:type="string">Magento_Catalog/js/components/new-category</item>
-                        <item name="elementTmpl" xsi:type="string">ui/grid/filters/elements/ui-select</item>
                         <item name="filterOptions" xsi:type="boolean">true</item>
+                        <item name="source" xsi:type="string">banner</item>
+                        <item name="multiple" xsi:type="boolean">true</item>
                         <item name="showCheckbox" xsi:type="boolean">true</item>
                         <item name="disableLabel" xsi:type="boolean">true</item>
-                        <item name="multiple" xsi:type="boolean">true</item>
                         <item name="levelsVisibility" xsi:type="number">1</item>
-                        <item name="required" xsi:type="boolean">false</item>
-                        <item name="validation" xsi:type="array">
-                            <item name="required-entry" xsi:type="boolean">true</item>
-                        </item>
-                        <item name="listens" xsi:type="array">
-                            <item name="${ $.namespace }.${ $.namespace }:responseData" xsi:type="string">setParsed</item>
-                        </item>
                     </item>
                 </argument>
+                <settings>
+                    <required>true</required>
+                    <validation>
+                        <rule name="required-entry" xsi:type="boolean">true</rule>
+                    </validation>
+                    <dataType>int</dataType>
+                    <elementTmpl>ui/grid/filters/elements/ui-select</elementTmpl>
+                    <label translate="true">Select Category</label>
+                    <dataScope>category_id</dataScope>
+                    <componentType>field</componentType>
+                    <listens>
+                        <link name="${ $.namespace }.${ $.namespace }:responseData">setParsed</link>
+                    </listens>
+                </settings>
+                <formElements>
+                    <select>
+                        <settings>
+                            <options class="Lof\CategoryBannerSlider\Ui\Component\CategoryBanner\Form\Categories\Options"/>
+                        </settings>
+                    </select>
+                </formElements>
             </field>
         </fieldset>
         <!-- End Fieldset Attach With Categories -->
