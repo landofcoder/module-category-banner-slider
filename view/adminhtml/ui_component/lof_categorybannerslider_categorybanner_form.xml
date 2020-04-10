@@ -113,8 +113,22 @@
             </settings>
         </field>
         <!--End Field Priority-->
+        <!-- Field URL On Image Click-->
+        <field formElement="input" name="url_image" sortOrder="40">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">banner</item>
+                </item>
+            </argument>
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">URL On Image Click</label>
+                <dataScope>url_image</dataScope>
+            </settings>
+        </field>
+        <!--End Field URL On Image Click-->
         <!-- Field storeview-->
-        <field name="storeviews" formElement="multiselect" sortOrder="40">
+        <field name="storeviews" formElement="multiselect" sortOrder="50">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">banner</item>
@@ -140,7 +154,7 @@
         </field>
         <!--End Field storeview-->
         <!-- Field customer_group -->
-        <field name="customer_group" formElement="multiselect">
+        <field name="customer_group" formElement="multiselect" sortOrder="60">
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">Enabled for Customer Groups</label>
@@ -160,7 +174,7 @@
         </field>
         <!-- End Field customer_group -->
         <!-- Field Banner Position-->
-        <field name="banner_position" formElement="select" sortOrder="50">
+        <field name="banner_position" formElement="select" sortOrder="70">
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">Banner Position</label>
@@ -190,7 +204,7 @@
         </field>
         <!-- End Field Banner Position-->
         <!-- Textarea description-->
-        <textarea name="description" sortOrder="60">
+        <textarea name="description" sortOrder="80">
             <settings>
                 <cols>15</cols>
                 <rows>5</rows>
@@ -202,33 +216,6 @@
             </settings>
         </textarea>
         <!-- End Textarea description-->
-        <!-- Fieldset images -->
-        <fieldset name="images">
-            <settings>
-                <collapsible>true</collapsible>
-                <label translate="true">Images</label>
-            </settings>
-            <!-- Field images -->
-            <field name="images">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="dataType" xsi:type="string">string</item>
-                        <item name="source" xsi:type="string">CategoryBanner</item>
-                        <item name="label" xsi:type="string" translate="true">Image</item>
-                        <item name="visible" xsi:type="boolean">true</item>
-                        <item name="formElement" xsi:type="string">imageUploader</item>
-                        <item name="elementTmpl" xsi:type="string">ui/form/element/uploader/uploader</item>
-                        <item name="required" xsi:type="boolean">false</item>
-                        <item name="sortOrder" xsi:type="number">40</item>
-                        <item name="uploaderConfig" xsi:type="array">
-                            <item name="url" xsi:type="url" path="lof_categorybannerslider/categorybanner/upload"/>
-                        </item>
-                    </item>
-                </argument>
-            </field>
-            <!-- End Field images -->
-        </fieldset>
-        <!-- End Fieldset images -->
         <!-- Fieldset General Slider Settings-->
         <fieldset name="general_slider_settings">
             <settings>
@@ -275,14 +262,14 @@
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Banner Width</label>
-                    <dataScope>title</dataScope>
+                    <dataScope>banner_width</dataScope>
                     <validation>
                         <rule name="required-entry" xsi:type="boolean">true</rule>
                     </validation>
                 </settings>
             </field>
             <!--End Field banner_width-->
-            <!-- Field banner_width-->
+            <!-- Field banner_height-->
             <field formElement="input" name="banner_height" sortOrder="30">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
@@ -292,22 +279,101 @@
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Banner Height</label>
-                    <dataScope>title</dataScope>
+                    <dataScope>banner_height</dataScope>
                     <validation>
                         <rule name="required-entry" xsi:type="boolean">true</rule>
                     </validation>
                 </settings>
             </field>
-            <!--End Field banner_width-->
+            <!--End Field banner_height-->
+            <!-- Field Show Banner Content-->
+            <field name="show_banner_content" sortOrder="40" formElement="checkbox">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">page</item>
+                        <item name="default" xsi:type="number">0</item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>boolean</dataType>
+                    <label translate="true">Show Banner Content</label>
+                    <dataScope>show_banner_content</dataScope>
+                </settings>
+                <formElements>
+                    <checkbox>
+                        <settings>
+                            <valueMap>
+                                <map name="false" xsi:type="number">0</map>
+                                <map name="true" xsi:type="number">1</map>
+                            </valueMap>
+                            <prefer>toggle</prefer>
+                        </settings>
+                    </checkbox>
+                </formElements>
+            </field>
+            <!-- End Field Show Banner Content-->
+            <!-- Field Show Banner Title-->
+            <field name="show_banner_title" sortOrder="50" formElement="checkbox">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="source" xsi:type="string">page</item>
+                        <item name="default" xsi:type="number">0</item>
+                    </item>
+                </argument>
+                <settings>
+                    <dataType>boolean</dataType>
+                    <label translate="true">Show Banner Title</label>
+                    <dataScope>show_banner_title</dataScope>
+                </settings>
+                <formElements>
+                    <checkbox>
+                        <settings>
+                            <valueMap>
+                                <map name="false" xsi:type="number">0</map>
+                                <map name="true" xsi:type="number">1</map>
+                            </valueMap>
+                            <prefer>toggle</prefer>
+                        </settings>
+                    </checkbox>
+                </formElements>
+            </field>
+            <!-- End Field Show Banner Title-->
         </fieldset>
         <!-- End Fieldset  General Slider Settings -->
+        <!-- Fieldset images -->
+        <htmlContent name="gallery" sortOrder="100">
+            <argument name="data" xsi:type="array">
+                <item name="wrapper" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Images</item>
+                    <item name="collapsible" xsi:type="boolean">true</item>
+                    <item name="opened" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+            <settings>
+                <wrapper>
+                    <canShow>true</canShow>
+                    <componentType>fieldset</componentType>
+                </wrapper>
+            </settings>
+            <block name="gallery" class="Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Gallery">
+                    <block class="Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Gallery\Content" as="content">
+                    <arguments>
+                        <argument name="config" xsi:type="array">
+                            <item name="parentComponent" xsi:type="string">lof_categorybannerslider_categorybanner_form.lof_categorybannerslider_categorybanner_form.block_gallery.block_gallery</item>
+                        </argument>
+                    </arguments>
+                </block>
+            </block>
+        </htmlContent>
+        <!-- End Fieldset images -->
         <!-- Fieldset Attach With Categories -->
         <fieldset name="attach_categories">
             <settings>
                 <collapsible>true</collapsible>
                 <label translate="true">Attach With Categories</label>
             </settings>
-            <field name="category_id" component="Lof_CategoryBannerSlider/js/select-category" sortOrder="20" formElement="select">
+            <field name="category_id" component="Lof_CategoryBannerSlider/js/select-category" sortOrder="20"
+                   formElement="select">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">
                         <item name="filterOptions" xsi:type="boolean">true</item>
@@ -335,7 +401,8 @@
                 <formElements>
                     <select>
                         <settings>
-                            <options class="Lof\CategoryBannerSlider\Ui\Component\CategoryBanner\Form\Categories\Options"/>
+                            <options
+                                    class="Lof\CategoryBannerSlider\Ui\Component\CategoryBanner\Form\Categories\Options"/>
                         </settings>
                     </select>
                 </formElements>
