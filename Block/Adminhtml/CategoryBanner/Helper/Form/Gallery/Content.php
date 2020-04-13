@@ -227,33 +227,19 @@ class Content extends \Magento\Backend\Block\Widget
      */
     public function getImageTypes()
     {
-//        $imageTypes = [];
-//        foreach ($this->getMediaAttributes() as $attribute) {
-//            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
-//            $value = $this->getElement()->getDataObject()->getData($attribute->getAttributeCode())
-//                ?: $this->getElement()->getImageValue($attribute->getAttributeCode());
-//            $imageTypes[$attribute->getAttributeCode()] = [
-//                'code' => $attribute->getAttributeCode(),
-//                'value' => $value,
-//                'label' => $attribute->getFrontend()->getLabel(),
-//                'scope' => __($this->getElement()->getScopeLabel($attribute)),
-//                'name' => $this->getElement()->getAttributeFieldName($attribute),
-//            ];
-//        }
-//        return $imageTypes;
         $imageTypes = [];
-//        foreach ($this->getMediaAttributes() as $attribute) {
-//            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
-//            $value = $this->getElement()->getData($attribute->getAttributeCode())
-//                ?: $this->getElement()->getImageValue($attribute->getAttributeCode());
-//            $imageTypes[$attribute->getAttributeCode()] = [
-//                'code' => $attribute->getAttributeCode(),
-//                'value' => $value,
-//                'label' => $attribute->getFrontend()->getLabel(),
-//                'scope' => __($this->getElement()->getScopeLabel($attribute)),
-//                'name' => $this->getElement()->getAttributeFieldName($attribute),
-//            ];
-//        }
+        foreach ($this->getMediaAttributes() as $attribute) {
+            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
+            $value = $this->getElement()->getDataObject()->getData($attribute->getAttributeCode())
+                ?: $this->getElement()->getImageValue($attribute->getAttributeCode());
+            $imageTypes[$attribute->getAttributeCode()] = [
+                'code' => $attribute->getAttributeCode(),
+                'value' => $value,
+                'label' => $attribute->getFrontend()->getLabel(),
+                'scope' => __($this->getElement()->getScopeLabel($attribute)),
+                'name' => $this->getElement()->getAttributeFieldName($attribute),
+            ];
+        }
         return $imageTypes;
     }
 
@@ -280,8 +266,8 @@ class Content extends \Magento\Backend\Block\Widget
      */
     public function getMediaAttributes()
     {
-//        return $this->getElement()->getDataObject()->getMediaAttributes();
-        return $this->getElement()->getMediaAttributes();
+        return $this->getElement()->getDataObject()->getMediaAttributes();
+//        return $this->getElement()->getMediaAttributes();
     }
 
     /**

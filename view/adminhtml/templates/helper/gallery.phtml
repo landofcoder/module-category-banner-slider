@@ -7,13 +7,13 @@
 // phpcs:disable Magento2.Files.LineLength
 // phpcs:disable Magento2.Templates.ThisInTemplate
 
-/** @var $block \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content */
+/** @var $block \Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Gallery\Content */
 $elementNameEscaped = $block->escapeHtmlAttr($block->getElement()->getName()) . '[images]';
 $formNameEscaped = $block->escapeHtmlAttr($block->getFormName());
 ?>
 
 <?php
-/** @var $block \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content */
+/** @var $block \Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Gallery\Content */
 $element = $block->getElement();
 $elementToggleCode = $element->getToggleCode() ? $element->getToggleCode() : 'toggleValueElements(this, this.parentNode.parentNode.parentNode)';
 ?>
@@ -193,20 +193,20 @@ $elementToggleCode = $element->getToggleCode() ? $element->getToggleCode() : 'to
                     <div class="admin__field-control">
                         <ul class="multiselect-alt">
                             <?php
-//                            foreach ($block->getMediaAttributes() as $attribute) :
-//                                ?>
-<!--                                <li class="item">-->
-<!--                                    <label>-->
-<!--                                        <input class="image-type"-->
-<!--                                               data-role="type-selector"-->
-<!--                                               data-form-part="--><?//= /* @noEscape */ $formNameEscaped ?><!--"-->
-<!--                                               type="checkbox"-->
-<!--                                               value="--><?//= $block->escapeHtmlAttr($attribute->getAttributeCode()) ?><!--"-->
-<!--                                        />-->
-<!--                                        --><?//= $block->escapeHtml($attribute->getFrontendLabel()) ?>
-<!--                                    </label>-->
-<!--                                </li>-->
-<!--                            --><?php //endforeach; ?>
+                            foreach ($block->getMediaAttributes() as $attribute) :
+                                ?>
+                                <li class="item">
+                                    <label>
+                                        <input class="image-type"
+                                               data-role="type-selector"
+                                               data-form-part="<?= /* @noEscape */ $formNameEscaped ?>"
+                                               type="checkbox"
+                                               value="<?= $block->escapeHtmlAttr($attribute->getAttributeCode()) ?>"
+                                        />
+                                        <?= $block->escapeHtml($attribute->getFrontendLabel()) ?>
+                                    </label>
+                                </li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
                 </div>
