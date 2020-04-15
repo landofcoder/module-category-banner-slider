@@ -48,23 +48,23 @@ class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterf
     private $filesystem;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Media\Config
+     * @var \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config
      */
-    private $productMediaConfig;
+    private $bannerMediaCongig;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\Controller\Result\RawFactory $resultRawFactory
      * @param \Magento\Framework\Image\AdapterFactory $adapterFactory
      * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Catalog\Model\Product\Media\Config $productMediaConfig
+     * @param \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config $productMediaConfig
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Controller\Result\RawFactory $resultRawFactory,
         \Magento\Framework\Image\AdapterFactory $adapterFactory = null,
         \Magento\Framework\Filesystem $filesystem = null,
-        \Magento\Catalog\Model\Product\Media\Config $productMediaConfig = null
+        \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config $bannerMediaCongig = null
     ) {
         parent::__construct($context);
         $this->resultRawFactory = $resultRawFactory;
@@ -72,8 +72,8 @@ class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterf
             ->get(\Magento\Framework\Image\AdapterFactory::class);
         $this->filesystem = $filesystem ?: ObjectManager::getInstance()
             ->get(\Magento\Framework\Filesystem::class);
-        $this->productMediaConfig = $productMediaConfig ?: ObjectManager::getInstance()
-            ->get(\Magento\Catalog\Model\Product\Media\Config::class);
+        $this->bannerMediaCongig = $bannerMediaCongig ?: ObjectManager::getInstance()
+            ->get(\Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config::class);
     }
 
     /**
@@ -95,7 +95,7 @@ class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterf
             $uploader->setFilesDispersion(true);
             $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
             $result = $uploader->save(
-                $mediaDirectory->getAbsolutePath($this->productMediaConfig->getBaseTmpMediaPath())
+                $mediaDirectory->getAbsolutePath($this->bannerMediaCongig->getBaseTmpMediaPath())
             );
 
             $this->_eventManager->dispatch(
@@ -106,7 +106,7 @@ class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterf
             unset($result['tmp_name']);
             unset($result['path']);
 
-            $result['url'] = $this->productMediaConfig->getTmpMediaUrl($result['file']);
+            $result['url'] = $this->bannerMediaCongig->getTmpMediaUrl($result['file']);
             $result['file'] = $result['file'] . '.tmp';
         } catch (\Exception $e) {
             $result = ['error' => $e->getMessage(), 'errorcode' => $e->getCode()];

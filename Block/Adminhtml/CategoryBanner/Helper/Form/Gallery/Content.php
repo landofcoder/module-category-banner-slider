@@ -5,10 +5,9 @@ namespace Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Ga
 use Magento\Framework\App\ObjectManager;
 use Magento\Backend\Block\Media\Uploader;
 use Magento\Framework\View\Element\AbstractBlock;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Exception\FileSystemException;
 use Magento\Backend\Block\DataProviders\ImageUploadConfig as ImageUploadConfigDataProvider;
 use Magento\MediaStorage\Helper\File\Storage\Database;
+use Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\CollectionFactory;
 
 /**
  * Block for gallery content.
@@ -21,7 +20,7 @@ class Content extends \Magento\Backend\Block\Widget
     protected $_template = 'Lof_CategoryBanner::helper/gallery.phtml';
 
     /**
-     * @var \Magento\Catalog\Model\Product\Media\Config
+     * @var \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config
      */
     protected $_mediaConfig;
 
@@ -45,10 +44,23 @@ class Content extends \Magento\Backend\Block\Widget
      */
     private $fileStorageDatabase;
 
+
+    /**
+     * @var \Magento\Framework\ObjectManagerInterface
+     */
+    public $_objectManager;
+
+    /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegister;
+
+    protected $_categorybanner;
+
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
+     * @param \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config $mediaConfig
      * @param array $data
      * @param ImageUploadConfigDataProvider $imageUploadConfigDataProvider
      * @param Database $fileStorageDatabase
@@ -56,11 +68,17 @@ class Content extends \Magento\Backend\Block\Widget
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
+        \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config $mediaConfig,
         array $data = [],
         ImageUploadConfigDataProvider $imageUploadConfigDataProvider = null,
+        \Magento\Framework\Registry $coreRegister,
+        \Magento\Framework\ObjectManagerInterface $objectManager,
+        CollectionFactory $categorybanner,
         Database $fileStorageDatabase = null
     ) {
+        $this->_categorybanner = $categorybanner;
+        $this->_objectManager = $objectManager;
+        $this->_coreRegister = $coreRegister;
         $this->_jsonEncoder = $jsonEncoder;
         $this->_mediaConfig = $mediaConfig;
         parent::__construct($context, $data);
@@ -100,6 +118,19 @@ class Content extends \Magento\Backend\Block\Widget
 
         return parent::_prepareLayout();
     }
+
+
+    /**
+     * @return mixed
+     */
+    public function images()
+    {
+        $categorybanner = $this->_categorybanner->create();
+        $collection = $categorybanner->addFieldToFilter('images');
+        $img_data = $collection->getData();
+        return $img_data;
+    }
+
 
     /**
      * Retrieve uploader block
@@ -153,34 +184,19 @@ class Content extends \Magento\Backend\Block\Widget
      */
     public function getImagesJson()
     {
-        $value = $this->getElement()->getImages();
-        if (is_array($value) &&
-            array_key_exists('images', $value) &&
-            is_array($value['images']) &&
-            count($value['images'])
-        ) {
-            $mediaDir = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
-            $images = $this->sortImagesByPosition($value['images']);
-            foreach ($images as &$image) {
-                $image['url'] = $this->_mediaConfig->getMediaUrl($image['file']);
-                if ($this->fileStorageDatabase->checkDbUsage() &&
-                    !$mediaDir->isFile($this->_mediaConfig->getMediaPath($image['file']))
-                ) {
-                    $this->fileStorageDatabase->saveFileToFilesystem(
-                        $this->_mediaConfig->getMediaPath($image['file'])
-                    );
-                }
-                try {
-                    $fileHandler = $mediaDir->stat($this->_mediaConfig->getMediaPath($image['file']));
-                    $image['size'] = $fileHandler['size'];
-                } catch (FileSystemException $e) {
-                    $image['url'] = $this->getImageHelper()->getDefaultPlaceholderUrl('small_image');
-                    $image['size'] = 0;
-                    $this->_logger->warning($e);
-                }
+        $value['images'] = $this->images();
+        if (is_array($value['images']) && count($value['images']) > 0) {
+            foreach ($value['images'] as &$image) {
+                $image['url'] = $this->_mediaConfig->getMediaUrl($image['img_name']);
+                $image['file'] = $image['img_name'];
+                $image['label'] = $image['img_label'];
+                $image['value_id'] = $image['img_id'];
+                $image['banner_id'] = $image['banner_id'];
+                $image['description'] = $image['img_description'];
             }
-            return $this->_jsonEncoder->encode($images);
+            return $this->_jsonEncoder->encode($value['images']);
         }
+
         return '[]';
     }
 
@@ -211,12 +227,6 @@ class Content extends \Magento\Backend\Block\Widget
     public function getImagesValuesJson()
     {
         $values = [];
-        foreach ($this->getMediaAttributes() as $attribute) {
-            /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
-            $values[$attribute->getAttributeCode()] = $this->getElement()->getDataObject()->getData(
-                $attribute->getAttributeCode()
-            );
-        }
         return $this->_jsonEncoder->encode($values);
     }
 
@@ -228,47 +238,20 @@ class Content extends \Magento\Backend\Block\Widget
     public function getImageTypes()
     {
         $imageTypes = [];
-        foreach ($this->getMediaAttributes() as $attribute) {
+        foreach ($this->images() as $attribute) {
             /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
-            $value = $this->getElement()->getDataObject()->getData($attribute->getAttributeCode())
-                ?: $this->getElement()->getImageValue($attribute->getAttributeCode());
-            $imageTypes[$attribute->getAttributeCode()] = [
-                'code' => $attribute->getAttributeCode(),
-                'value' => $value,
-                'label' => $attribute->getFrontend()->getLabel(),
-                'scope' => __($this->getElement()->getScopeLabel($attribute)),
-                'name' => $this->getElement()->getAttributeFieldName($attribute),
+            $imageTypes['image'] = [
+                'code' => 'image',
+                'value' => $attribute['img_name'],
+                'label' => $attribute['img_label'],
+                'scope' => 'Store View',
+                'name' => 'gallery[image]',
             ];
         }
         return $imageTypes;
     }
 
-    /**
-     * Retrieve default state allowance
-     *
-     * @return bool
-     */
-    public function hasUseDefault()
-    {
-        foreach ($this->getMediaAttributes() as $attribute) {
-            if ($this->getElement()->canDisplayUseDefault($attribute)) {
-                return true;
-            }
-        }
 
-        return false;
-    }
-
-    /**
-     * Retrieve media attributes
-     *
-     * @return array
-     */
-    public function getMediaAttributes()
-    {
-        return $this->getElement()->getDataObject()->getMediaAttributes();
-//        return $this->getElement()->getMediaAttributes();
-    }
 
     /**
      * Retrieve JSON data

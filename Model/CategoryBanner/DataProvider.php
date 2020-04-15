@@ -71,20 +71,42 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
      */
     public function getData()
     {
+        $data = $this->dataPersistor->get('lof_category_banner');
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
         if (isset($this->loadedData)) {
             return $this->loadedData;
         }
         $items = $this->collection->getItems();
         foreach ($items as $model) {
             $this->loadedData[$model->getId()] = $model->getData();
+            $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+            $connection = $resource->getConnection();
+            $tableName = $resource->getTableName('lof_category_banner_category');
+            $sql = "Select category_id FROM " . $tableName . " Where banner_id = " . $model->getBannerId();
+            $result = $connection->fetchAll($sql);
+            $category = [];
+            foreach ($result as $key => $value) {
+                $category[$key] = $value['category_id'];
+            }
+            $this->loadedData[$model->getId()]['category_id'] = $category;
         }
-        $data = $this->dataPersistor->get('lof_category_banner');
+
 
         if (!empty($data)) {
             $model = $this->collection->getNewEmptyItem();
             $model->setData($data);
             $this->loadedData[$model->getId()] = $model->getData();
             $this->dataPersistor->clear('lof_category_banner');
+            $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+            $connection = $resource->getConnection();
+            $tableName = $resource->getTableName('lof_category_banner_category');
+            $sql = "Select 'category_id' FROM " . $tableName . " Where banner_id = " . $model->getBannerId();
+            $result = $connection->fetchAll($sql);
+            $category = [];
+            foreach ($result as $key => $value) {
+                $category[$key] = $value['category_id'];
+            }
+            $this->loadedData[$model->getId()]['category_id'] = $category;
         }
 
         return $this->loadedData;

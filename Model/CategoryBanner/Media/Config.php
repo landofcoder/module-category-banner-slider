@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Copyright © Magento, Inc. All rights reserved.
  * See COPYING.txt for license details.
@@ -11,7 +10,7 @@ use Magento\Eav\Model\Entity\Attribute;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
- * Catalog banner media config.
+ * Catalog product media config.
  *
  * @api
  * @since 100.0.2
@@ -44,7 +43,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Get filesystem directory path for banner images relative to the media directory.
+     * Get filesystem directory path for product images relative to the media directory.
      *
      * @return string
      */
@@ -54,7 +53,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Get web-based directory path for banner images relative to the media directory.
+     * Get web-based directory path for product images relative to the media directory.
      *
      * @return string
      */
@@ -81,7 +80,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Filesystem directory path of temporary banner images relative to the media directory.
+     * Filesystem directory path of temporary product images relative to the media directory.
      *
      * @return string
      */
@@ -130,7 +129,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Part of URL of temporary banner images relative to the media directory.
+     * Part of URL of temporary product images relative to the media directory.
      *
      * @param string $file
      * @return string
@@ -141,7 +140,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Part of URL of banner images relatively to media folder.
+     * Part of URL of product images relatively to media folder.
      *
      * @param string $file
      * @return string

@@ -1,12 +1,12 @@
 <?php
+
 namespace Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form;
 
 use Magento\Framework\App\ObjectManager;
-use Magento\Framework\App\Request\DataPersistorInterface;
-use Magento\Framework\Registry;
-use Magento\Catalog\Model\Product;
+use Lof\CategoryBannerSlider\Model\CategoryBanner;
 use Magento\Eav\Model\Entity\Attribute;
-use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Framework\Registry;
+use phpDocumentor\Reflection\Types\This;
 
 /**
  * Adminhtml gallery block
@@ -39,7 +39,7 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
      *
      * @var string
      */
-    protected $image = 'images';
+    protected $image = 'image';
 
     /**
      * @var string
@@ -56,36 +56,24 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
      */
     protected $form;
 
-    /**
-     * @var Registry
-     */
-    protected $registry;
-
-    /**
-     * @var DataPersistorInterface
-     */
-    private $dataPersistor;
+    protected $_registry;
 
     /**
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param Registry $registry
      * @param \Magento\Framework\Data\Form $form
      * @param array $data
-     * @param DataPersistorInterface|null $dataPersistor
      */
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        Registry $registry,
         \Magento\Framework\Data\Form $form,
-        $data = [],
-        DataPersistorInterface $dataPersistor = null
+        Registry $registry,
+        $data = []
     ) {
+        $this->_registry = $registry;
         $this->storeManager = $storeManager;
-        $this->registry = $registry;
         $this->form = $form;
-        $this->dataPersistor = $dataPersistor ?: ObjectManager::getInstance()->get(DataPersistorInterface::class);
         parent::__construct($context, $data);
     }
 
@@ -101,18 +89,13 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
     }
 
     /**
-     * Get product images
+     * Get banner images
      *
      * @return array|null
      */
     public function getImages()
     {
-        $images = $this->getDataObject()->getData('media_gallery') ?: null;
-//        $images = $this->getData('media_gallery') ?: null;
-        if ($images === null) {
-            $images = ((array)$this->dataPersistor->get('category_banner'))['banner']['media_gallery'] ?? null;
-        }
-        return $images;
+        return $this->registry->registry('category_banner')->getData('media_gallery') ?: null;
     }
 
     /**
@@ -123,13 +106,20 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
     public function getContentHtml()
     {
         /* @var $content \Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Gallery\Content */
-        $content = $this->getChildBlock('content');
+        $content = $this->getChildBlock('content_items');
         $content->setId($this->getHtmlId() . '_content')->setElement($this);
         $content->setFormName($this->formName);
         $galleryJs = $content->getJsObjectName();
         $content->getUploader()->getConfig()->setMediaGallery($galleryJs);
         return $content->toHtml();
     }
+
+    protected function _prepareLayout()
+    {
+        $this->addChild('content_items','Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Gallery\Content');
+        return parent::_prepareLayout();
+    }
+
 
     /**
      * Returns html id
@@ -172,95 +162,6 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
     }
 
     /**
-     * Check "Use default" checkbox display availability
-     *
-     * @param Attribute $attribute
-     * @return bool
-     */
-    public function canDisplayUseDefault($attribute)
-    {
-        if (!$attribute->isScopeGlobal() && $this->getDataObject()->getStoreId()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Check default value usage fact
-     *
-     * @param Attribute $attribute
-     * @return bool
-     */
-    public function usedDefault($attribute)
-    {
-        $attributeCode = $attribute->getAttributeCode();
-        $defaultValue = $this->getDataObject()->getAttributeDefaultValue($attributeCode);
-
-        if (!$this->getDataObject()->getExistsStoreValueFlag($attributeCode)) {
-            return true;
-        } elseif ($this->getValue() == $defaultValue &&
-            $this->getDataObject()->getStoreId() != $this->_getDefaultStoreId()
-        ) {
-            return false;
-        }
-        if ($defaultValue === false && !$attribute->getIsRequired() && $this->getValue()) {
-            return false;
-        }
-        return $defaultValue === false;
-    }
-
-    /**
-     * Retrieve label of attribute scope
-     *
-     * GLOBAL | WEBSITE | STORE
-     *
-     * @param Attribute $attribute
-     * @return string
-     */
-    public function getScopeLabel($attribute)
-    {
-        $html = '';
-        if ($this->storeManager->isSingleStoreMode()) {
-            return $html;
-        }
-
-        if ($attribute->isScopeGlobal()) {
-            $html .= __('[GLOBAL]');
-        } elseif ($attribute->isScopeWebsite()) {
-            $html .= __('[WEBSITE]');
-        } elseif ($attribute->isScopeStore()) {
-            $html .= __('[STORE VIEW]');
-        }
-        return $html;
-    }
-
-    /**
-     * Retrieve data object related with form
-     *
-     * @return ProductInterface|Product
-     */
-    public function getDataObject()
-    {
-        return $this->registry->registry('current_product');
-    }
-
-    /**
-     * Retrieve attribute field name
-     *
-     * @param Attribute $attribute
-     * @return string
-     */
-    public function getAttributeFieldName($attribute)
-    {
-        $name = $attribute->getAttributeCode();
-        if ($suffix = $this->getFieldNameSuffix()) {
-            $name = $this->form->addSuffixToName($name, $suffix);
-        }
-        return $name;
-    }
-
-    /**
      * Returns html content of the block
      *
      * @return string
@@ -270,14 +171,8 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
         return $this->getElementHtml();
     }
 
-    /**
-     * Default sore ID getter
-     *
-     * @return integer
-     */
-    protected function _getDefaultStoreId()
+    public function getDataObject()
     {
-        return \Magento\Store\Model\Store::DEFAULT_STORE_ID;
+        return $this->registry->registry('category_banner');
     }
 }
-
