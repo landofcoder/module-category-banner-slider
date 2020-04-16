@@ -184,19 +184,34 @@ class Content extends \Magento\Backend\Block\Widget
      */
     public function getImagesJson()
     {
-        $value['images'] = $this->images();
-        if (is_array($value['images']) && count($value['images']) > 0) {
-            foreach ($value['images'] as &$image) {
-                $image['url'] = $this->_mediaConfig->getMediaUrl($image['img_name']);
-                $image['file'] = $image['img_name'];
-                $image['label'] = $image['img_label'];
-                $image['value_id'] = $image['img_id'];
-                $image['banner_id'] = $image['banner_id'];
-                $image['description'] = $image['img_description'];
+        $value = $this->getImages();
+        if (is_array($value) &&
+            array_key_exists('images', $value) &&
+            is_array($value['images']) &&
+            count($value['images'])
+        ) {
+            $mediaDir = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
+            $images = $this->sortImagesByPosition($value['images']);
+            foreach ($images as &$image) {
+                $image['url'] = $this->_mediaConfig->getMediaUrl($image['file']);
+                if ($this->fileStorageDatabase->checkDbUsage() &&
+                    !$mediaDir->isFile($this->_mediaConfig->getMediaPath($image['file']))
+                ) {
+                    $this->fileStorageDatabase->saveFileToFilesystem(
+                        $this->_mediaConfig->getMediaPath($image['file'])
+                    );
+                }
+                try {
+                    $fileHandler = $mediaDir->stat($this->_mediaConfig->getMediaPath($image['file']));
+                    $image['size'] = $fileHandler['size'];
+                } catch (FileSystemException $e) {
+                    $image['url'] = $this->getImageHelper()->getDefaultPlaceholderUrl('small_image');
+                    $image['size'] = 0;
+                    $this->_logger->warning($e);
+                }
             }
-            return $this->_jsonEncoder->encode($value['images']);
+            return $this->_jsonEncoder->encode($images);
         }
-
         return '[]';
     }
 

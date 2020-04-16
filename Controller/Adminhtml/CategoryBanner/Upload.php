@@ -77,7 +77,7 @@ class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterf
     }
 
     /**
-     * Upload image(s) to the product gallery.
+     * Upload image(s) to the banner gallery.
      *
      * @return \Magento\Framework\Controller\Result\Raw
      */

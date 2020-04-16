@@ -6,11 +6,10 @@
 
 namespace Lof\CategoryBannerSlider\Model\CategoryBanner\Media;
 
-use Magento\Eav\Model\Entity\Attribute;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
- * Catalog product media config.
+ * Catalog banner media config.
  *
  * @api
  * @since 100.0.2
@@ -25,16 +24,6 @@ class Config implements ConfigInterface
     protected $storeManager;
 
     /**
-     * @var Attribute
-     */
-    private $attributeHelper;
-
-    /**
-     * @var string[]
-     */
-    private $mediaAttributeCodes;
-
-    /**
      * @param StoreManagerInterface $storeManager
      */
     public function __construct(StoreManagerInterface $storeManager)
@@ -43,7 +32,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Get filesystem directory path for product images relative to the media directory.
+     * Get filesystem directory path for banner images relative to the media directory.
      *
      * @return string
      */
@@ -53,7 +42,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Get web-based directory path for product images relative to the media directory.
+     * Get web-based directory path for banner images relative to the media directory.
      *
      * @return string
      */
@@ -80,7 +69,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Filesystem directory path of temporary product images relative to the media directory.
+     * Filesystem directory path of temporary banner images relative to the media directory.
      *
      * @return string
      */
@@ -129,7 +118,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Part of URL of temporary product images relative to the media directory.
+     * Part of URL of temporary banner images relative to the media directory.
      *
      * @param string $file
      * @return string
@@ -140,7 +129,7 @@ class Config implements ConfigInterface
     }
 
     /**
-     * Part of URL of product images relatively to media folder.
+     * Part of URL of banner images relatively to media folder.
      *
      * @param string $file
      * @return string
@@ -172,32 +161,4 @@ class Config implements ConfigInterface
         return ltrim(str_replace('\\', '/', $file), '/');
     }
 
-    /**
-     * Get codes of media attribute.
-     *
-     * @return array
-     * @since 100.0.4
-     */
-    public function getMediaAttributeCodes()
-    {
-        if (!isset($this->mediaAttributeCodes)) {
-            // the in-memory object-level caching allows to prevent unnecessary calls to the DB
-            $this->mediaAttributeCodes = $this->getAttributeHelper()->getAttributeCodesByFrontendType('media_image');
-        }
-        return $this->mediaAttributeCodes;
-    }
-
-    /**
-     * Get attribute helper.
-     *
-     * @return Attribute
-     */
-    private function getAttributeHelper()
-    {
-        if (null === $this->attributeHelper) {
-            $this->attributeHelper = \Magento\Framework\App\ObjectManager::getInstance()
-                ->get(\Magento\Eav\Model\Entity\Attribute::class);
-        }
-        return $this->attributeHelper;
-    }
 }
