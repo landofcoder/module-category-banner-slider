@@ -8,6 +8,7 @@ use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Backend\Block\DataProviders\ImageUploadConfig as ImageUploadConfigDataProvider;
 use Magento\MediaStorage\Helper\File\Storage\Database;
 use Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\CollectionFactory;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Block for gallery content.
@@ -97,7 +98,7 @@ class Content extends \Magento\Backend\Block\Widget
     {
         $this->addChild(
             'uploader',
-            \Magento\Backend\Block\Media\Uploader::class,
+            '\Magento\Backend\Block\Media\Uploader',
             ['image_upload_config_data' => $this->imageUploadConfigDataProvider]
         );
 
@@ -291,5 +292,10 @@ class Content extends \Magento\Backend\Block\Widget
                 ->get(\Magento\Catalog\Helper\Image::class);
         }
         return $this->imageHelper;
+    }
+
+    public function getBannerId()
+    {
+        return $this->getRequest()->getParam('banner_id');
     }
 }

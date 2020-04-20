@@ -16,6 +16,7 @@ use Magento\Store\Model\StoreManagerInterface;
  */
 class Config implements ConfigInterface
 {
+    const MEDIA_PATH = 'lof/categorybannerslider/categorybanner';
     /**
      * Store manager
      *
@@ -160,5 +161,4 @@ class Config implements ConfigInterface
     {
         return ltrim(str_replace('\\', '/', $file), '/');
     }
-
 }

@@ -103,11 +103,8 @@ class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterf
                 ['result' => $result, 'action' => $this]
             );
 
-            unset($result['tmp_name']);
-            unset($result['path']);
-
             $result['url'] = $this->bannerMediaCongig->getTmpMediaUrl($result['file']);
-            $result['file'] = $result['file'] . '.tmp';
+            $result['file'] = $result['file'];
         } catch (\Exception $e) {
             $result = ['error' => $e->getMessage(), 'errorcode' => $e->getCode()];
         }

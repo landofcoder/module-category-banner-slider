@@ -24,6 +24,9 @@
 namespace Lof\CategoryBannerSlider\Controller\Adminhtml\CategoryBanner;
 
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Stdlib\DateTime\Filter\Date;
+use Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Class Save
@@ -35,14 +38,37 @@ class Save extends \Magento\Backend\App\Action
     protected $dataPersistor;
 
     /**
+     * Date filter instance
+     *
+     * @var Date
+     */
+    protected $_dateFilter;
+
+    protected $mediaConfig;
+
+    /**
+     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
+     */
+    protected $mediaDirectory;
+
+    protected $_filesystem;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor
-    )
-    {
+        \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor,
+        \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter,
+        \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config $mediaConfig,
+        DirectoryList $mediaDirectory,
+        \Magento\Framework\Filesystem $filesystem
+    ) {
+        $this->_filesystem = $filesystem;
+        $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->mediaConfig = $mediaConfig;
+        $this->_dateFilter = $dateFilter;
         $this->dataPersistor = $dataPersistor;
         parent::__construct($context);
     }
@@ -58,6 +84,31 @@ class Save extends \Magento\Backend\App\Action
         $resultRedirect = $this->resultRedirectFactory->create();
         $data = $this->getRequest()->getPostValue();
         if ($data) {
+            $inputFilter = new \Zend_Filter_Input(
+                ['create_at' => $this->_dateFilter],
+                [],
+                $data
+            );
+            $data = $inputFilter->getUnescaped();
+            if (isset($data['categorybanner']['media_gallery'])) {
+                $mediaGallery = $data['categorybanner']['media_gallery'];
+                if ($mediaGallery) {
+                    foreach ($mediaGallery['images'] as $key => $image) {
+                        if (!isset($image['file']) || $image['file']=='') {
+                            unset($mediaGallery['images'][$key]);
+                            continue;
+                        }
+                        if (isset($image['removed']) && $image['removed'] == 1) {
+                            unset($mediaGallery['images'][$key]);
+                            continue;
+                        }
+
+                    }
+                    $data['imagesBanner'] = $mediaGallery['images'];
+                    $data['media_gallery'] = $mediaGallery;
+                    unset($data['categorybanner']);
+                }
+            }
             $id = $this->getRequest()->getParam('banner_id');
             $model = $this->_objectManager->create(\Lof\CategoryBannerSlider\Model\CategoryBanner::class)->load($id);
             if (!$model->getId() && $id) {
@@ -70,21 +121,25 @@ class Save extends \Magento\Backend\App\Action
             try {
                 $model->save();
                 $this->messageManager->addSuccessMessage(__('You saved the Categorybanner.'));
-                $this->dataPersistor->clear('lof_category_banner');
-
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 if ($this->getRequest()->getParam('back')) {
                     return $resultRedirect->setPath('*/*/edit', ['banner_id' => $model->getId()]);
                 }
                 return $resultRedirect->setPath('*/*/');
             } catch (LocalizedException $e) {
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($data);
                 $this->messageManager->addErrorMessage($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the Categorybanner.'));
             }
-
-            $this->dataPersistor->set('lof_categorybannerslider_categorybanner', $data);
+            // save data in session
             return $resultRedirect->setPath('*/*/edit', ['banner_id' => $this->getRequest()->getParam('banner_id')]);
         }
         return $resultRedirect->setPath('*/*/');
     }
+//    protected function removeDeletedImages($filePath)
+//    {
+//        $catalogPath = $this->mediaConfig->getBaseMediaPath();
+//        $this->mediaDirectory->delete(Config::MEDIA_PATH.$filePath);
+//    }
 }

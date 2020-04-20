@@ -67,6 +67,7 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
         return $connection->fetchCol($select);
     }
 
+
     /**
      * Save Category Banner Store
      */
@@ -114,6 +115,37 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
     }
 
 
+    protected function _saveCategoryBanner(\Magento\Framework\Model\AbstractModel $object)
+    {
+        if (!$object->getData("isfrontend")) {
+            $postData = $object->getData();
+
+            if (isset($postData['imagesBanner'])) {
+                $imagesBanner = $postData['imagesBanner'];
+                $table = $this->getTable('lof_category_banner');
+                $where = ['banner_id = ?' => (int)$object->getId()];
+                $this->getConnection()->delete($table, $where);
+                $data = [];
+                foreach ($imagesBanner as $k => $image) {
+                    $data[] = [
+                        'banner_id' => $object->getId(),
+                        'store_id' => $object->getStoreId(),
+                        'title' => $object->getTitle(),
+                        'description' => $object->getDescription(),
+                        'priority' => $object->getPriority(),
+                        'images' => $image['file'],
+                        'status' => $object->getStatus(),
+                    ];
+                }
+
+                if (!empty($data)) {
+                    $this->getConnection()->insertMultiple($table, $data);
+                }
+            }
+        }
+    }
+
+
     /**
      * @param $banner
      * @return $this
@@ -146,7 +178,6 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
     /**
      * Process page data after saving
      *
-     * @param AbstractModel $object
      * @return $this
      * @throws LocalizedException
      */
@@ -154,7 +185,7 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
     {
         $this->_saveBannerCategory($bannerId);
         $this->_saveCategoryBannerStores($bannerId);
+//        $this->_saveCategoryBanner($bannerId);
         return parent::_afterSave($bannerId);
     }
-
 }

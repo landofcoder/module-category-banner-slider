@@ -95,7 +95,24 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
      */
     public function getImages()
     {
-        return $this->registry->registry('category_banner')->getData('media_gallery') ?: null;
+        $mediaGallery = $this->registry->registry('lof_categorybannerslider_categorybanner')->getData('media_gallery');
+        if (!empty($mediaGallery)) {
+            foreach ($mediaGallery['images'] as $key => $image) {
+                if (isset($image['video_description']) && $image['video_description'] != '') {
+                    $mediaGallery['images'][$key]['video_description'] = base64_decode($image['video_description']);
+                }
+
+                if (isset($image['role']) && $image['role'] != '') {
+                    $mediaGallery['images'][$key]['role'] = base64_decode($image['role']);
+                }
+
+                if (isset($mediaGallery['images']) && isset($mediaGallery['images'][$key]['description'])) {
+                    $mediaGallery['images'][$key]['description'] = base64_decode($image['description']);
+                }
+            }
+
+            return $mediaGallery;
+        }
     }
 
     /**
@@ -171,8 +188,15 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
         return $this->getElementHtml();
     }
 
+    /**
+     * Retrieve data object related with form
+     *
+     * @return ProductInterface|Product
+     */
     public function getDataObject()
     {
-        return $this->registry->registry('category_banner');
-    }
+        return $this->registry->registry('current_product');
+    }//end getDataObject()
+
+
 }
