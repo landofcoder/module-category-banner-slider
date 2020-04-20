@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * system
+ *
+ * @copyright Copyright © 2020 landofcoder. All rights reserved.
+ * @author    landofcoder@gmail.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="landofcoder" sortOrder="999" translate="label">
+            <label>landofcoder</label>
+        </tab>
+        <section id="lofcategorybannerslider" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10"
+                 translate="label">
+            <label>Category Banner Slider</label>
+            <tab>landofcoder</tab>
+            <resource>Lof_CategoryBannerSlider::config_lof_categorybannerslider</resource>
+            <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10"
+                   translate="label">
+                <label>General Settings</label>
+                <field id="enable" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10"
+                       translate="label" type="select">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable/Disable Category Banner</comment>
+                </field>
+            </group>
+            <group id="simpleslider" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20"
+                   translate="label">
+                <label>Simple Slider Settings</label>
+                <field id="auto_play" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="10" translate="label" type="select">
+                    <label>Auto Play</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="interval" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20"
+                       translate="label" type="text">
+                    <label>Interval</label>
+                    <comment>provide values: 1500, 2500, 3500 7200</comment>
+                </field>
+                <field id="pause_on_hover_simple" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="30" translate="label" type="select">
+                    <label>Pause On Hover</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="effect" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="40" translate="label" type="select">
+                    <label>Effect</label>
+                </field>
+            </group>
+            <group id="cameraslider" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20"
+                   translate="label">
+                <label>Camera Slider Settings</label>
+                <field id="select_animation" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10"
+                       translate="label" type="select">
+                    <label>Select Animation</label>
+                </field>
+                <field id="pause_on_hover_camera" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="20" translate="label" type="select">
+                    <label>Pause On Hover</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="loader" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="30" translate="label" type="text">
+                    <label>Loader</label>
+                    <comment>
+                        pie, bar, none
+                    </comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
