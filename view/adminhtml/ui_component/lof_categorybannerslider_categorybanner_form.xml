@@ -265,6 +265,7 @@
                     <dataScope>banner_width</dataScope>
                     <validation>
                         <rule name="required-entry" xsi:type="boolean">true</rule>
+                        <rule name="validate-number" xsi:type="boolean">true</rule>
                     </validation>
                 </settings>
             </field>
@@ -282,6 +283,7 @@
                     <dataScope>banner_height</dataScope>
                     <validation>
                         <rule name="required-entry" xsi:type="boolean">true</rule>
+                        <rule name="validate-number" xsi:type="boolean">true</rule>
                     </validation>
                 </settings>
             </field>

@@ -56,6 +56,9 @@ class Content extends \Magento\Backend\Block\Widget
      */
     protected $_coreRegister;
 
+    /**
+     * @var CollectionFactory
+     */
     protected $_categorybanner;
 
     /**
@@ -294,6 +297,9 @@ class Content extends \Magento\Backend\Block\Widget
         return $this->imageHelper;
     }
 
+    /**
+     * @return mixed
+     */
     public function getBannerId()
     {
         return $this->getRequest()->getParam('banner_id');

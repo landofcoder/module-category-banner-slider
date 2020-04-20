@@ -56,6 +56,9 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
      */
     protected $form;
 
+    /**
+     * @var Registry
+     */
     protected $_registry;
 
     /**
@@ -131,6 +134,9 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
         return $content->toHtml();
     }
 
+    /**
+     * @return \Magento\Framework\View\Element\AbstractBlock
+     */
     protected function _prepareLayout()
     {
         $this->addChild('content_items','Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Gallery\Content');
@@ -196,7 +202,7 @@ class Gallery extends \Magento\Framework\View\Element\AbstractBlock
     public function getDataObject()
     {
         return $this->registry->registry('current_product');
-    }//end getDataObject()
+    }
 
 
 }

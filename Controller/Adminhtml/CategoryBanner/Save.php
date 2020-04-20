@@ -35,6 +35,9 @@ use Magento\Framework\App\Filesystem\DirectoryList;
  */
 class Save extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\Framework\App\Request\DataPersistorInterface
+     */
     protected $dataPersistor;
 
     /**
@@ -44,6 +47,9 @@ class Save extends \Magento\Backend\App\Action
      */
     protected $_dateFilter;
 
+    /**
+     * @var Config
+     */
     protected $mediaConfig;
 
     /**
@@ -51,6 +57,9 @@ class Save extends \Magento\Backend\App\Action
      */
     protected $mediaDirectory;
 
+    /**
+     * @var \Magento\Framework\Filesystem
+     */
     protected $_filesystem;
 
     /**
@@ -90,8 +99,17 @@ class Save extends \Magento\Backend\App\Action
                 $data
             );
             $data = $inputFilter->getUnescaped();
+            $id = $this->getRequest()->getParam('banner_id');
+            $model = $this->_objectManager->create(\Lof\CategoryBannerSlider\Model\CategoryBanner::class)->load($id);
+            if (!$model->getId() && $id) {
+                $this->messageManager->addErrorMessage(__('This Categorybanner no longer exists.'));
+                return $resultRedirect->setPath('*/*/');
+            }
+
+            $model->setData($data);
             if (isset($data['categorybanner']['media_gallery'])) {
                 $mediaGallery = $data['categorybanner']['media_gallery'];
+                $json = [];
                 if ($mediaGallery) {
                     foreach ($mediaGallery['images'] as $key => $image) {
                         if (!isset($image['file']) || $image['file']=='') {
@@ -102,21 +120,12 @@ class Save extends \Magento\Backend\App\Action
                             unset($mediaGallery['images'][$key]);
                             continue;
                         }
-
+                        $json[$key] = $image['file'];
                     }
-                    $data['imagesBanner'] = $mediaGallery['images'];
-                    $data['media_gallery'] = $mediaGallery;
-                    unset($data['categorybanner']);
+                    $json = json_encode($json);
+                    $model->setImages($json);
                 }
             }
-            $id = $this->getRequest()->getParam('banner_id');
-            $model = $this->_objectManager->create(\Lof\CategoryBannerSlider\Model\CategoryBanner::class)->load($id);
-            if (!$model->getId() && $id) {
-                $this->messageManager->addErrorMessage(__('This Categorybanner no longer exists.'));
-                return $resultRedirect->setPath('*/*/');
-            }
-
-            $model->setData($data);
 
             try {
                 $model->save();
@@ -137,9 +146,4 @@ class Save extends \Magento\Backend\App\Action
         }
         return $resultRedirect->setPath('*/*/');
     }
-//    protected function removeDeletedImages($filePath)
-//    {
-//        $catalogPath = $this->mediaConfig->getBaseMediaPath();
-//        $this->mediaDirectory->delete(Config::MEDIA_PATH.$filePath);
-//    }
 }

@@ -33,9 +33,16 @@ use Magento\Framework\App\Request\DataPersistorInterface;
  */
 class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
 {
+    /**
+     * @var \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection
+     */
     protected $collection;
 
+    /**
+     * @var DataPersistorInterface
+     */
     protected $dataPersistor;
+
 
     protected $loadedData;
 
@@ -79,6 +86,8 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $items = $this->collection->getItems();
         foreach ($items as $model) {
             $this->loadedData[$model->getId()] = $model->getData();
+            $image = get_object_vars(json_decode($model->getImages()));
+            $this->loadedData[$model->getId()]['image'] = $image;
             $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
             $connection = $resource->getConnection();
             $tableName = $resource->getTableName('lof_category_banner_category');
