@@ -1,10 +1,3 @@
-/*
- *   Author : Azhar Hussain Masum
-     Email: azharhussain4647@gmail.com
-     Website: http://azharmasum.com/
-     Facebook: https://www.facebook.com/azhar.hussainmasum
-*/
-// Avoid `console` errors in browsers that lack a console.
 (function () {
     var method;
     var noop = function () {};

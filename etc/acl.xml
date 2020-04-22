@@ -17,6 +17,13 @@
                     <resource id="Lof_CategoryBannerSlider::CategoryBanner_update" sortOrder="30" title="Update CategoryBanner"/>
                     <resource id="Lof_CategoryBannerSlider::CategoryBanner_view" sortOrder="40" title="View CategoryBanner"/>
                 </resource>
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Lof_CategoryBannerSlider::config_categorybannerslider" title="CategoryBannerSlider" />
+                        </resource>
+                    </resource>
+                </resource>
             </resource>
         </resources>
     </acl>

@@ -27,6 +27,7 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Stdlib\DateTime\Filter\Date;
 use Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Lof\CategoryBannerSlider\Model\CategoryBannerFactory;
 
 /**
  * Class Save
@@ -63,8 +64,19 @@ class Save extends \Magento\Backend\App\Action
     protected $_filesystem;
 
     /**
+     * @var CategoryBannerFactory
+     */
+    protected $_categoryFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor
+     * @param Date $dateFilter
+     * @param Config $mediaConfig
+     * @param DirectoryList $mediaDirectory
+     * @param \Magento\Framework\Filesystem $filesystem
+     * @param CategoryBannerFactory $categoryFactory
+     * @throws \Magento\Framework\Exception\FileSystemException
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -72,13 +84,15 @@ class Save extends \Magento\Backend\App\Action
         \Magento\Framework\Stdlib\DateTime\Filter\Date $dateFilter,
         \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config $mediaConfig,
         DirectoryList $mediaDirectory,
-        \Magento\Framework\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem,
+        \Lof\CategoryBannerSlider\Model\CategoryBannerFactory $categoryFactory
     ) {
         $this->_filesystem = $filesystem;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->mediaConfig = $mediaConfig;
         $this->_dateFilter = $dateFilter;
         $this->dataPersistor = $dataPersistor;
+        $this->_categoryFactory = $categoryFactory;
         parent::__construct($context);
     }
 
@@ -100,7 +114,7 @@ class Save extends \Magento\Backend\App\Action
             );
             $data = $inputFilter->getUnescaped();
             $id = $this->getRequest()->getParam('banner_id');
-            $model = $this->_objectManager->create(\Lof\CategoryBannerSlider\Model\CategoryBanner::class)->load($id);
+            $model = $this->_categoryFactory->create()->load($id);
             if (!$model->getId() && $id) {
                 $this->messageManager->addErrorMessage(__('This Categorybanner no longer exists.'));
                 return $resultRedirect->setPath('*/*/');
@@ -112,7 +126,7 @@ class Save extends \Magento\Backend\App\Action
                 $json = [];
                 if ($mediaGallery) {
                     foreach ($mediaGallery['images'] as $key => $image) {
-                        if (!isset($image['file']) || $image['file']=='') {
+                        if (!isset($image['file']) || $image['file'] == '') {
                             unset($mediaGallery['images'][$key]);
                             continue;
                         }

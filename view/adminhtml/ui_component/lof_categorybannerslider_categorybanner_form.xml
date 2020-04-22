@@ -227,7 +227,7 @@
                 <settings>
                     <dataType>text</dataType>
                     <label translate="true">Select Slider</label>
-                    <dataScope>select_example</dataScope>
+                    <dataScope>select_example1</dataScope>
                 </settings>
                 <formElements>
                     <select>

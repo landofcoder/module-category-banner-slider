@@ -17,7 +17,7 @@
                  translate="label">
             <label>Category Banner Slider</label>
             <tab>landofcoder</tab>
-            <resource>Lof_CategoryBannerSlider::config_lof_categorybannerslider</resource>
+            <resource>Lof_CategoryBannerSlider::config_categorybannerslider</resource>
             <group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10"
                    translate="label">
                 <label>General Settings</label>
@@ -31,43 +31,64 @@
             <group id="simpleslider" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20"
                    translate="label">
                 <label>Simple Slider Settings</label>
-                <field id="auto_play" showInDefault="1" showInStore="1" showInWebsite="1"
+                <field id="auto_play_simpleslider" showInDefault="1" showInStore="1" showInWebsite="1"
                        sortOrder="10" translate="label" type="select">
                     <label>Auto Play</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="interval" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20"
+                <field id="interval_simpleslider" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20"
                        translate="label" type="text">
                     <label>Interval</label>
                     <comment>provide values: 1500, 2500, 3500 7200</comment>
                 </field>
-                <field id="pause_on_hover_simple" showInDefault="1" showInStore="1" showInWebsite="1"
+                <field id="pause_on_hover_simpleslider" showInDefault="1" showInStore="1" showInWebsite="1"
                        sortOrder="30" translate="label" type="select">
                     <label>Pause On Hover</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="effect" showInDefault="1" showInStore="1" showInWebsite="1"
+                <field id="effec_simpleslider" showInDefault="1" showInStore="1" showInWebsite="1"
                        sortOrder="40" translate="label" type="select">
                     <label>Effect</label>
                 </field>
             </group>
-            <group id="cameraslider" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20"
+            <group id="cameraslider" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30"
                    translate="label">
                 <label>Camera Slider Settings</label>
-                <field id="select_animation" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10"
+                <field id="select_animation_cameraslider" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10"
                        translate="label" type="select">
                     <label>Select Animation</label>
                 </field>
-                <field id="pause_on_hover_camera" showInDefault="1" showInStore="1" showInWebsite="1"
+
+                <field id="pause_on_hover_cameraslider" showInDefault="1" showInStore="1" showInWebsite="1"
                        sortOrder="20" translate="label" type="select">
                     <label>Pause On Hover</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="loader" showInDefault="1" showInStore="1" showInWebsite="1"
+
+                <field id="loader_cameraslider" showInDefault="1" showInStore="1" showInWebsite="1"
                        sortOrder="30" translate="label" type="text">
                     <label>Loader</label>
                     <comment>
                         pie, bar, none
+                    </comment>
+                </field>
+
+                <field id="show_navigation_cameraslider" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="40" translate="label" type="select">
+                    <label>Show Navigation Button</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="show_pagination_cameraslider" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="50" translate="label" type="select">
+                    <label>Show Pagination</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="duration_cameraslider" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="60" translate="label" type="text">
+                    <label>Slide Duration</label>
+                    <comment>
+                        1500, 2500, 3500
                     </comment>
                 </field>
             </group>
