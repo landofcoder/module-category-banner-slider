@@ -1,12 +1,12 @@
 <?php
 
-namespace Lof\CategoryBannerSlider\Controller\CategoryBanner;
+namespace Lof\CategoryBannerSlider\Controller\Banner;
 
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\App\Action\Context;
 
-class Index extends Action
+class View extends Action
 {
     /**
      * @var PageFactory
@@ -30,9 +30,7 @@ class Index extends Action
      */
     public function execute()
     {
-        echo 'hieu'; die();
         /** @var \Magento\Framework\View\Result\Page $resultPage */
-        $resultPage = $this->pageFactory->create();
-        return $resultPage;
+        return $this->pageFactory->create();
     }
 }
