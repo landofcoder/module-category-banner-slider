@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * lof_categorybannerslider_banner_view
+ *
+ * @copyright Copyright © 2020 Landofcoder. All rights reserved.
+ * @author    landofcoder@gmail.com
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <head>
+            <css href="Lof_CategoryBannerSlider::css/camera.css"/>
+            <script src="Lof_CategoryBannerSlider::js/camera.min.js"/>
+        </head>
+        <referenceContainer name="content">
+            <block class="Lof\CategoryBannerSlider\Block\Banner\View" name="lof_categorybannerslider_banner_view"
+                   templates="Lof_CategoryBannerSlider::banner.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
