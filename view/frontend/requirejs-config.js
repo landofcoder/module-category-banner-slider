@@ -8,11 +8,32 @@
 var config = {
     map: {
         '*': {
+            plugins: "Lof_CategoryBannerSlider/js/plugins",
             cameraBanner: 'Lof_CategoryBannerSlider/js/camera.min',
-            easingBanner: 'Lof_CategoryBannerSlider/js/easing.min',
-            pluginsBanner: 'Lof_CategoryBannerSlider/js/plugins.min',
-            bootstrapBanner: 'Lof_CategoryBannerSlider/js/bootstrap.min',
-            modernizrBanner: 'Lof_CategoryBannerSlider/js/modernizr-3.5.0.min',
+            slick: 'Lof_CategoryBannerSlider/js/slick.min',
+            easing: 'Lof_CategoryBannerSlider/js/easing.min',
+            modernizr: 'Lof_CategoryBannerSlider/js/modernizr.min',
         }
     },
+    paths: {
+        cameraBanner: 'Lof_CategoryBannerSlider/js/camera.min',
+        slick: 'Lof_CategoryBannerSlider/js/slick.min',
+        easing: 'Lof_CategoryBannerSlider/js/easing.min',
+        modernizr: 'Lof_CategoryBannerSlider/js/modernizr.min',
+    },
+    shim: {
+        cameraBanner: {
+            deps: ['jquery'],
+        },
+        slick: {
+            deps: ['jquery'],
+        },
+        easing: {
+            deps: ['jquery'],
+        },
+        modernizr: {
+            deps: ['jquery'],
+        },
+    }
 };
+

@@ -14,14 +14,10 @@ var config = {
     map: {
         '*': {
             categoryBannerGallery: 'Lof_CategoryBannerSlider/js/category-banner-gallery',
-            lofOpenVideoModal: 'Lof_CategoryBannerSlider/js/video-modal',
-            lofFabric: 'Lof_CategoryBannerSlider/js/fabric.min',
-            lofFileSaver: 'Lof_CategoryBannerSlider/js/FileSaver.min',
-            lofAddImage: 'Lof_CategoryBannerSlider/js/addimage',
             'mage/adminhtml/browser': 'Lof_CategoryBannerSlider/js/browser'
         }
     },
-    "shim": {
+    shim: {
         'Lof_CategoryBannerSlider/js/browser': ["jquery"]
     }
 };

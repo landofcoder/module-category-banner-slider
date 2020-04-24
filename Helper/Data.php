@@ -24,7 +24,10 @@
 namespace Lof\CategoryBannerSlider\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Store\Model\StoreManager;
+
 
 /**
  * Class Data
@@ -34,42 +37,42 @@ use Magento\Store\Model\ScopeInterface;
 class Data extends AbstractHelper
 {
     /**
-     * @var ScopeInterface
+     * @var StoreManager
      */
-    protected $scopeConfig;
+    protected $_storeManager;
 
-    const XML_PATH_BANNER = 'lofcategorybannerslider/';
 
-    /**
-     * @param \Magento\Framework\App\Helper\Context $context
-     */
-    public function __construct(
-        \Magento\Store\Model\ScopeInterface $scopeConfig,
-        \Magento\Framework\App\Helper\Context $context
-    ) {
+
+    public function __construct(Context $context, StoreManager $_storeManager)
+    {
+        $this->_storeManager = $_storeManager;
         parent::__construct($context);
-        $this->scopeConfig = $scopeConfig;
     }
 
     /**
-     * @param $field
-     * @param $storeId
+     * @param $key
+     * @param null $store
+     * @return mixed
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getConfig($key, $store = null)
+    {
+        $store = $this->_storeManager->getStore($store);
+        $result = $this->scopeConfig->getValue(
+            $key,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        return $result;
+    }
+
+
+    /**
+     * @param null $storeId
      * @return mixed
      */
-    public function getConfigValue($field, $storeId)
+    public function getEnable($storeId = null)
     {
-        return $this->scopeConfig->getValue(
-            $field,
-            ScopeInterface::SCOPE_STORE,
-            $storeId
-        );
-    }
-
-    /**
-     * @return bool
-     */
-    public function getGeneralConfig($code, $storeId = null)
-    {
-        return $this->getConfigValue(self::XML_PATH_BANNER . 'general/' . $code, $storeId);
+        return $this->getConfig('lofcategorybannerslider/general/enabled', $storeId);
     }
 }

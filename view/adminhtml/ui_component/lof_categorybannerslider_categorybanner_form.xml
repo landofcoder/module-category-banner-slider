@@ -167,7 +167,7 @@
                 <multiselect>
                     <settings>
                         <options
-                                class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CategoryBanner\CustomerGroup"/>
+                                class="Lof\CategoryBannerSlider\Ui\Component\CategoryBanner\Form\Customer\CustomerGroup"/>
                     </settings>
                 </multiselect>
             </formElements>

@@ -14,20 +14,16 @@
             <general>
                 <enable>1</enable>
             </general>
-            <simpleslider>
-                <auto_play_simpleslider>1</auto_play_simpleslider>
-                <interval_simpleslider>7200</interval_simpleslider>
-                <pause_on_hover_simpleslider>1</pause_on_hover_simpleslider>
-                <effec_simpleslider></effec_simpleslider>
-            </simpleslider>
-            <cameraslider>
-                <select_animation_cameraslider></select_animation_cameraslider>
-                <pause_on_hover_cameraslider>1</pause_on_hover_cameraslider>
-                <loader_cameraslider></loader_cameraslider>
-                <show_navigation_cameraslider>1</show_navigation_cameraslider>
-                <show_pagination_cameraslider>1</show_pagination_cameraslider>
-                <duration_cameraslider>1500</duration_cameraslider>
-            </cameraslider>
+            <slider>
+                <auto_play_slider>1</auto_play_slider>
+                <interval_slider>7200</interval_slider>
+                <pause_on_hover_slider>1</pause_on_hover_slider>
+                <select_animation_slider></select_animation_slider>
+                <loader_slider>bar</loader_slider>
+                <show_navigation_slider>1</show_navigation_slider>
+                <show_pagination_slider>1</show_pagination_slider>
+                <duration_slider>1500</duration_slider>
+            </slider>
         </lofcategorybannerslider>
     </default>
 </config>

@@ -16,7 +16,6 @@ use Magento\Store\Model\StoreManagerInterface;
  */
 class Config implements ConfigInterface
 {
-    const MEDIA_PATH = 'lof/categorybannerslider/categorybanner';
     /**
      * Store manager
      *
@@ -39,7 +38,7 @@ class Config implements ConfigInterface
      */
     public function getBaseMediaPathAddition()
     {
-        return 'lof_categorybannerslider/categorybanner';
+        return 'categorybannerslider/banner';
     }
 
     /**
@@ -49,7 +48,7 @@ class Config implements ConfigInterface
      */
     public function getBaseMediaUrlAddition()
     {
-        return 'lof_categorybannerslider/categorybanner';
+        return 'categorybannerslider/banner';
     }
 
     /**
@@ -57,7 +56,7 @@ class Config implements ConfigInterface
      */
     public function getBaseMediaPath()
     {
-        return 'lof_categorybannerslider/categorybanner';
+        return 'categorybannerslider/Banner';
     }
 
     /**
@@ -76,7 +75,7 @@ class Config implements ConfigInterface
      */
     public function getBaseTmpMediaPath()
     {
-        return 'tmp/' . $this->getBaseMediaPathAddition();
+        return 'lof/' . $this->getBaseMediaPathAddition();
     }
 
     /**
@@ -88,7 +87,7 @@ class Config implements ConfigInterface
     {
         return $this->storeManager->getStore()->getBaseUrl(
                 \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
-            ) . 'tmp/' . $this->getBaseMediaUrlAddition();
+            ) . 'lof/' . $this->getBaseMediaUrlAddition();
     }
 
     /**
@@ -126,7 +125,7 @@ class Config implements ConfigInterface
      */
     public function getTmpMediaShortUrl($file)
     {
-        return 'tmp/' . $this->getBaseMediaUrlAddition() . '/' . $this->_prepareFile($file);
+        return 'lof/' . $this->getBaseMediaUrlAddition() . '/' . $this->_prepareFile($file);
     }
 
     /**

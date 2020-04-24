@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Lof\CategoryBannerSlider\Controller\Adminhtml\CategoryBanner;
 
 use Magento\Framework\App\Action\HttpPostActionInterface as HttpPostActionInterface;
@@ -65,7 +62,8 @@ class Upload extends \Magento\Backend\App\Action implements HttpPostActionInterf
         \Magento\Framework\Image\AdapterFactory $adapterFactory = null,
         \Magento\Framework\Filesystem $filesystem = null,
         \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config $bannerMediaCongig = null
-    ) {
+    )
+    {
         parent::__construct($context);
         $this->resultRawFactory = $resultRawFactory;
         $this->adapterFactory = $adapterFactory ?: ObjectManager::getInstance()

@@ -1,6 +1,11 @@
-(function () {
+define([
+    'jquery',
+    'slick',
+    'cameraBanner'
+], function ($) {
     var method;
-    var noop = function () {};
+    var noop = function () {
+    };
     var methods = [
         'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
         'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
@@ -18,18 +23,12 @@
             console[method] = noop;
         }
     }
-}());
 
-// Place any jQuery/helper plugins in here.
-
-
-//Camera Slide-Show Custom Js Here.
-$(function () {
     $('.camera_wrap').camera({
         playPause: true,
         navigation: true,
         navigationHover: true,
-        hover: false,
+        hover: true,
         loader: 'bar',
         loaderColor: 'red',
         loaderBgColor: '#222222',

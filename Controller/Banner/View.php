@@ -30,6 +30,7 @@ class View extends Action
      */
     public function execute()
     {
+
         /** @var \Magento\Framework\View\Result\Page $resultPage */
         return $this->pageFactory->create();
     }
