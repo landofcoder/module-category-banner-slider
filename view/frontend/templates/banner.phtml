@@ -7,82 +7,73 @@
  */
 ?>
 <?php
-$block->getCollectionBanner();
+$autoAdvance = $block->getAutoPlayConfig();
+$effect = $block->getEffectConfig();
+$interval = $block->getIntervalConfig();
+$duration = $block->getDurationConfig();
+$navigation = $block->getNavigationConfig();
+$loader = $block->getLoaderConfig();
+$pauseonhover = $block->getPauseOnHoverConfig();
+$buttonsplaypause = $block->getPlayPauseButtonConfig();
+$barposition = $block->getBarPositionConfig();
+$pieposition = $block->getPiePositionConfig();
 ?>
 
 
 <div class="camera_wrap">
     <div
-        data-src="http://lofextension.localhost/media/lof/categorybannerslider/banner/w/o/wonder-woman-gal-gadot_1.png">
-        <img src="http://lofextension.localhost/media/lof/categorybannerslider/banner/w/o/wonder-woman-gal-gadot_1.png">
+        data-src="http://lofextension.localhost/media/lof/categorybannerslider/banner/w/o/wonder-woman-gal-gadot2_3.png">
+        <img
+            src="http://lofextension.localhost/media/lof/categorybannerslider/banner/w/o/wonder-woman-gal-gadot2_3.png">
         <div class="camera_caption">
             <p>Caption 1</p>
         </div>
     </div>
     <div
-        data-src="http://lofextension.localhost/media/lof/categorybannerslider/banner/w/o/wonder-woman-gal-gadot_1.png">
-        <img src="http://lofextension.localhost/media/lof/categorybannerslider/banner/w/o/wonder-woman-gal-gadot_1.png">
+        data-src="http://lofextension.localhost/media/lof/categorybannerslider/banner/f/x/fxybdmj6ncm01_3.jpg">
+        <img src="http://lofextension.localhost/media/lof/categorybannerslider/banner/f/x/fxybdmj6ncm01_3.jpg">
         <div class="camera_caption">
             <p>Caption 2</p>
         </div>
     </div>
     <div
-        data-src="http://lofextension.localhost/media/lof/categorybannerslider/banner/w/o/wonder-woman-gal-gadot_1.png">
-        <img src="http://lofextension.localhost/media/lof/categorybannerslider/banner/w/o/wonder-woman-gal-gadot_1.png">
+        data-src="http://lofextension.localhost/media/lof/categorybannerslider/banner/a/v/avengers_3.jpg">
+        <img src="http://lofextension.localhost/media/lof/categorybannerslider/banner/a/v/avengers_3.jpg">
         <div class="camera_caption">
             <p>Caption 3</p>
         </div>
     </div>
 </div>
 
+
 <script>
     require([
-            'jquery',
-            'slick',
-            'easing',
-            'cameraBanner'
-        ], function ($) {
-            var method;
-            var noop = function () {
-            };
-            var methods = [
-                'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-                'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-                'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-                'timeline', 'timelineEnd', 'timeStamp', 'trace', 'warn'
-            ];
-            var length = methods.length;
-            var console = (window.console = window.console || {});
-
-            while (length--) {
-                method = methods[length];
-
-                // Only stub undefined methods.
-                if (!console[method]) {
-                    console[method] = noop;
-                }
-            }
-
+        'jquery',
+        'Lof_CategoryBannerSlider/js/jquery.easing.1.3',
+        'Lof_CategoryBannerSlider/js/camera.min'
+    ], function ($) {
+        "use strict";
+        $(document).ready(function () {
             $('.camera_wrap').camera({
-                fx: 'simpleFade',
-                playPause: true,
-                navigation: true,
+                fx: "<?= $effect ?>",
+                autoAdvance:<?= $autoAdvance ?>,
+                playPause: <?= $buttonsplaypause ?>,
+                navigation: <?= $navigation ?>,
                 navigationHover: true,
-                hover: true,
-                loader: 'bar', //pie,bar,none
+                hover: <?= $pauseonhover ?>,
+                loader: '<?=$loader?>',
                 loaderColor: 'red',
                 loaderBgColor: '#222222',
                 loaderOpacity: 1,
                 loaderPadding: 0,
-                time: 2000,
-                transPeriod: 1500,
-                pauseOnClick: true,
-                pagination: true,
-                mobileAutoAdvance:true,
-            });
-        }
-    );
-
+                time: <?= $interval ?>,
+                transPeriod: <?= $duration ?>,
+                pauseOnClick: <?= $autoAdvance ?>,
+                pagination: <?= $navigation ?>,
+                barPosition: '<?= $barposition ?>',
+                piePosition: '<?= $pieposition ?>',
+            })
+        })
+    })
 </script>
-
 

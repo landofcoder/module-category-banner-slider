@@ -52,25 +52,44 @@
                     <label>Pause On Hover</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="button_play_plause_slider" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="50" translate="label" type="select">
+                    <label>Play/Pause Buttons</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="loader_slider" showInDefault="1" showInStore="1" showInWebsite="1"
-                       sortOrder="60" translate="label" type="text">
+                       sortOrder="70" translate="label" type="select">
                     <label>Loader</label>
-                    <comment>
-                        pie, bar, none
-                    </comment>
+                    <source_model>Lof\CategoryBannerSlider\Model\CategoryBanner\Source\Loader</source_model>
+                </field>
+                <field id="bar_position_slider" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="70" translate="label" type="select">
+                    <label>Loader Bar Position</label>
+                    <source_model>Lof\CategoryBannerSlider\Model\CategoryBanner\Source\BarPosition</source_model>
+                    <depends>
+                        <field id="lofcategorybannerslider/slider/loader_slider">bar</field>
+                    </depends>
+                </field>
+                <field id="pie_position_slider" showInDefault="1" showInStore="1" showInWebsite="1"
+                       sortOrder="70" translate="label" type="select">
+                    <label>Loader Bar Position</label>
+                    <source_model>Lof\CategoryBannerSlider\Model\CategoryBanner\Source\PiePosition</source_model>
+                    <depends>
+                        <field id="lofcategorybannerslider/slider/loader_slider">pie</field>
+                    </depends>
                 </field>
                 <field id="show_navigation_slider" showInDefault="1" showInStore="1" showInWebsite="1"
-                       sortOrder="70" translate="label" type="select">
+                       sortOrder="80" translate="label" type="select">
                     <label>Show Navigation Button</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="show_pagination_slider" showInDefault="1" showInStore="1" showInWebsite="1"
-                       sortOrder="80" translate="label" type="select">
+                       sortOrder="90" translate="label" type="select">
                     <label>Show Pagination</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="duration_slider" showInDefault="1" showInStore="1" showInWebsite="1"
-                       sortOrder="90" translate="label" type="text">
+                       sortOrder="100" translate="label" type="text">
                     <label>Slide Duration</label>
                     <comment>
                         1500, 2500, 3500

@@ -23,7 +23,6 @@
 
 namespace Lof\CategoryBannerSlider\Controller\Adminhtml;
 
-
 /**
  * Class CategoryBanner
  *
@@ -41,8 +40,7 @@ abstract class CategoryBanner extends \Magento\Backend\App\Action
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry
-    )
-    {
+    ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }

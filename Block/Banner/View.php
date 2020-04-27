@@ -47,13 +47,59 @@ class View extends Template
         }
         return parent::_toHtml();
     }
-
-    public function getCollectionBanner()
+    public function getAutoPlayConfig()
     {
-        $banner = $this->_CategoryBannerFactory->create();
-        $collection = $banner->getCollection();
-        foreach ($collection as $item) {
-            $item->getData();
-        }
+        $autoplay = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/auto_play_slider');
+        return $autoplay;
+    }
+    public function getEffectConfig()
+    {
+        $effect = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/select_animation_slider');
+        return $effect;
+    }
+    public function getIntervalConfig()
+    {
+        $interval = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/interval_slider');
+        return $interval;
+    }
+    public function getDurationConfig()
+    {
+        $duration = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/duration_slider');
+        return $duration;
+    }
+    public function getPaginationConfig()
+    {
+        $pagination = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/show_pagination_slider');
+        return $pagination;
+    }
+    public function getNavigationConfig()
+    {
+        $navigation = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/show_navigation_slider');
+        return $navigation;
+    }
+    public function getLoaderConfig()
+    {
+        $loader = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/loader_slider');
+        return $loader;
+    }
+    public function getPauseOnHoverConfig()
+    {
+        $pauseonhover = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/pause_on_hover_slider');
+        return $pauseonhover;
+    }
+    public function getPlayPauseButtonConfig()
+    {
+        $playpausebuttons = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/button_play_plause_slider');
+        return $playpausebuttons;
+    }
+    public function getBarPositionConfig()
+    {
+        $barposition = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/bar_position_slider');
+        return $barposition;
+    }
+    public function getPiePositionConfig()
+    {
+        $barposition = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/pie_position_slider');
+        return $barposition;
     }
 }

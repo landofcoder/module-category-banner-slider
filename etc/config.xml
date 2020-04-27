@@ -19,10 +19,13 @@
                 <interval_slider>7200</interval_slider>
                 <pause_on_hover_slider>1</pause_on_hover_slider>
                 <select_animation_slider></select_animation_slider>
-                <loader_slider>bar</loader_slider>
+                <loader_slider>1</loader_slider>
                 <show_navigation_slider>1</show_navigation_slider>
                 <show_pagination_slider>1</show_pagination_slider>
                 <duration_slider>1500</duration_slider>
+                <button_play_plause_slider>1</button_play_plause_slider>
+                <bar_position_slider>bottom</bar_position_slider>
+                <pie_position_slider>rightTop</pie_position_slider>
             </slider>
         </lofcategorybannerslider>
     </default>

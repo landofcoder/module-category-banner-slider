@@ -27,7 +27,7 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManager;
-
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 /**
  * Class Data
@@ -41,10 +41,22 @@ class Data extends AbstractHelper
      */
     protected $_storeManager;
 
+    /**
+     * @var ScopeConfigInterface
+     */
+    protected $scopeConfig;
 
+    const XML_PATH_AUTO_PLAY_SLIDER = 'lofcategorybannerslider/slider/auto_play_slider';
+    const XML_PATH_SELECT_ANIMATION_SLIDER = 'lofcategorybannerslider/slider/auto_play_slider';
 
-    public function __construct(Context $context, StoreManager $_storeManager)
+    /**
+     * Data constructor.
+     * @param Context $context
+     * @param StoreManager $_storeManager
+     */
+    public function __construct(Context $context, StoreManager $_storeManager, ScopeConfigInterface $scopeConfig)
     {
+        $this->scopeConfig = $scopeConfig;
         $this->_storeManager = $_storeManager;
         parent::__construct($context);
     }
@@ -64,6 +76,13 @@ class Data extends AbstractHelper
             $store
         );
         return $result;
+    }
+
+
+    public function getSystemconfig($xmlpath)
+    {
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue($xmlpath, $storeScope);
     }
 
 
