@@ -144,17 +144,6 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
     }
 
 
-//    protected function _beforeSave(AbstractModel $object)
-//    {
-//
-//
-//        $groupIds = $object->getCustomerGroupIds();
-//        if (is_array($groupIds)) {
-//            $object->setCustomerGroupIds(implode(',', $groupIds));
-//        }
-//
-//        return parent::_beforeSave($object);
-//    }
 
     /**
      * Process page data after saving

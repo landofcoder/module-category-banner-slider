@@ -72,7 +72,7 @@
                 </field>
                 <field id="pie_position_slider" showInDefault="1" showInStore="1" showInWebsite="1"
                        sortOrder="70" translate="label" type="select">
-                    <label>Loader Bar Position</label>
+                    <label>Loader Pie Position</label>
                     <source_model>Lof\CategoryBannerSlider\Model\CategoryBanner\Source\PiePosition</source_model>
                     <depends>
                         <field id="lofcategorybannerslider/slider/loader_slider">pie</field>

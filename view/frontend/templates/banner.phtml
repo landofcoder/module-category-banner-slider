@@ -7,9 +7,13 @@
  */
 ?>
 <?php
+
+$Bannercollection = $block->getBannerCollection();
 $autoAdvance = $block->getAutoPlayConfig();
 $effect = $block->getEffectConfig();
 $interval = $block->getIntervalConfig();
+
+
 $duration = $block->getDurationConfig();
 $navigation = $block->getNavigationConfig();
 $loader = $block->getLoaderConfig();
@@ -17,8 +21,22 @@ $pauseonhover = $block->getPauseOnHoverConfig();
 $buttonsplaypause = $block->getPlayPauseButtonConfig();
 $barposition = $block->getBarPositionConfig();
 $pieposition = $block->getPiePositionConfig();
-?>
 
+$collection = \Magento\Framework\App\ObjectManager::getInstance()->get('Lof\CategoryBannerSlider\Model\ResourceModel\BannerCategory\Collection');
+
+
+$myBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Lof\CategoryBannerSlider\Block\Banner');
+$banner = \Magento\Framework\App\ObjectManager::getInstance()->get('Lof\CategoryBannerSlider\Model\CategoryBanner');
+
+
+if ($currentCategory = $myBlock->getCurrentCategory()) {
+    $collection->addFieldToFilter('category_id',    $currentCategory->getEntityId());
+    if($collection->getData()) {
+        foreach ($collection->getData() as $item) {
+            $bannerId = $item['banner_id'];
+            $banner->load($bannerId);
+
+?>
 
 <div class="camera_wrap">
     <div
@@ -44,8 +62,12 @@ $pieposition = $block->getPiePositionConfig();
         </div>
     </div>
 </div>
+<?php
 
-
+}
+    }
+}
+?>
 <script>
     require([
         'jquery',
@@ -76,4 +98,6 @@ $pieposition = $block->getPiePositionConfig();
         })
     })
 </script>
+
+
 

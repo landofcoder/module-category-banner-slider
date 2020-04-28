@@ -44,12 +44,12 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $installer->startSetup();
 
-        if (version_compare($context->getVersion(), '1.2.5', '<')) {
+        if (version_compare($context->getVersion(), '2.2.8', '<')) {
             $installer->getConnection()->addColumn(
                 $installer->getTable('lof_category_banner'),
                 'customer_group_id',
                 [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                     'nullable' => true,
                     'unsigned' => true,
                     'comment' => 'Customer Group'
@@ -59,7 +59,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 $installer->getTable('lof_category_banner'),
                 'banner_width',
                 [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                     'nullable' => true,
                     'unsigned' => true,
                     'comment' => 'Banner Width'
@@ -69,7 +69,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 $installer->getTable('lof_category_banner'),
                 'banner_height',
                 [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
                     'nullable' => true,
                     'unsigned' => true,
                     'comment' => 'Banner Height'

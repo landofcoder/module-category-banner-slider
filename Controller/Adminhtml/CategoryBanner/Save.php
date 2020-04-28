@@ -86,7 +86,8 @@ class Save extends \Magento\Backend\App\Action
         DirectoryList $mediaDirectory,
         \Magento\Framework\Filesystem $filesystem,
         \Lof\CategoryBannerSlider\Model\CategoryBannerFactory $categoryFactory
-    ) {
+    )
+    {
         $this->_filesystem = $filesystem;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->mediaConfig = $mediaConfig;
@@ -119,7 +120,8 @@ class Save extends \Magento\Backend\App\Action
                 $this->messageManager->addErrorMessage(__('This Categorybanner no longer exists.'));
                 return $resultRedirect->setPath('*/*/');
             }
-
+            $data['customer_group_id'] = implode(',', $data['customer_group_id']);
+            $model->setId($this->getRequest()->getParam('banner_id'));
             $model->setData($data);
             if (isset($data['categorybanner']['media_gallery'])) {
                 $mediaGallery = $data['categorybanner']['media_gallery'];
@@ -140,6 +142,7 @@ class Save extends \Magento\Backend\App\Action
                     $model->setImages($json);
                 }
             }
+
 
             try {
                 $model->save();

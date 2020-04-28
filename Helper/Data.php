@@ -29,6 +29,7 @@ use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManager;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 
+
 /**
  * Class Data
  *
@@ -40,6 +41,8 @@ class Data extends AbstractHelper
      * @var StoreManager
      */
     protected $_storeManager;
+
+    protected $_CategoryBannerFactory;
 
     /**
      * @var ScopeConfigInterface

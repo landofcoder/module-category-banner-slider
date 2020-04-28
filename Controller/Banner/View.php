@@ -6,6 +6,10 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\App\Action\Context;
 
+/**
+ * Class View
+ * @package Lof\CategoryBannerSlider\Controller\Banner
+ */
 class View extends Action
 {
     /**

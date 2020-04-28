@@ -39,7 +39,6 @@ class CategoryBanner extends AbstractModel
 
 
 
-
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
