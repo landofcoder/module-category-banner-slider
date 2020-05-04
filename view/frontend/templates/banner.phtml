@@ -8,66 +8,47 @@
 ?>
 <?php
 
-$Bannercollection = $block->getBannerCollection();
+$allowShowBanner = $block->checkBannerCategory();
+$mediaUrl = $block->getMediaUrl();
 $autoAdvance = $block->getAutoPlayConfig();
 $effect = $block->getEffectConfig();
 $interval = $block->getIntervalConfig();
-
-
 $duration = $block->getDurationConfig();
 $navigation = $block->getNavigationConfig();
 $loader = $block->getLoaderConfig();
-$pauseonhover = $block->getPauseOnHoverConfig();
-$buttonsplaypause = $block->getPlayPauseButtonConfig();
-$barposition = $block->getBarPositionConfig();
-$pieposition = $block->getPiePositionConfig();
-
-$collection = \Magento\Framework\App\ObjectManager::getInstance()->get('Lof\CategoryBannerSlider\Model\ResourceModel\BannerCategory\Collection');
-
-
-$myBlock = \Magento\Framework\App\ObjectManager::getInstance()->get('Lof\CategoryBannerSlider\Block\Banner');
-$banner = \Magento\Framework\App\ObjectManager::getInstance()->get('Lof\CategoryBannerSlider\Model\CategoryBanner');
-
-
-if ($currentCategory = $myBlock->getCurrentCategory()) {
-    $collection->addFieldToFilter('category_id',    $currentCategory->getEntityId());
-    if($collection->getData()) {
-        foreach ($collection->getData() as $item) {
-            $bannerId = $item['banner_id'];
-            $banner->load($bannerId);
-
+$pauseOnHover = $block->getPauseOnHoverConfig();
+$buttonsPlayPause = $block->getPlayPauseButtonConfig();
+$barPosition = $block->getBarPositionConfig();
+$piePosition = $block->getPiePositionConfig();
+$listBanner = $block->getListBanner();
 ?>
 
-<div class="camera_wrap">
-    <div
-        data-src="http://lofextension.localhost/media/lof/categorybannerslider/banner/w/o/wonder-woman-gal-gadot2_3.png">
-        <img
-            src="http://lofextension.localhost/media/lof/categorybannerslider/banner/w/o/wonder-woman-gal-gadot2_3.png">
-        <div class="camera_caption">
-            <p>Caption 1</p>
-        </div>
-    </div>
-    <div
-        data-src="http://lofextension.localhost/media/lof/categorybannerslider/banner/f/x/fxybdmj6ncm01_3.jpg">
-        <img src="http://lofextension.localhost/media/lof/categorybannerslider/banner/f/x/fxybdmj6ncm01_3.jpg">
-        <div class="camera_caption">
-            <p>Caption 2</p>
-        </div>
-    </div>
-    <div
-        data-src="http://lofextension.localhost/media/lof/categorybannerslider/banner/a/v/avengers_3.jpg">
-        <img src="http://lofextension.localhost/media/lof/categorybannerslider/banner/a/v/avengers_3.jpg">
-        <div class="camera_caption">
-            <p>Caption 3</p>
-        </div>
-    </div>
-</div>
 <?php
-
-}
+if ($allowShowBanner == 1) {
+    foreach ($listBanner as $bannerId){
+        $getImages = $block->getImagesBannerCategory($bannerId);
+        ?>
+    <div class="camera_wrap">
+        <?php
+        foreach ($getImages as $image){
+            $imagesurl = $mediaUrl.$image;
+            ?>
+            <div data-src="<?= $imagesurl ?>">
+                <img src="<?=$imagesurl?>">
+                <div class="camera_caption">
+                    <p>Caption 1</p>
+                </div>
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+    <?php
     }
 }
 ?>
+
+
 <script>
     require([
         'jquery',
@@ -79,10 +60,10 @@ if ($currentCategory = $myBlock->getCurrentCategory()) {
             $('.camera_wrap').camera({
                 fx: "<?= $effect ?>",
                 autoAdvance:<?= $autoAdvance ?>,
-                playPause: <?= $buttonsplaypause ?>,
+                playPause: <?= $buttonsPlayPause ?>,
                 navigation: <?= $navigation ?>,
                 navigationHover: true,
-                hover: <?= $pauseonhover ?>,
+                hover: <?= $pauseOnHover ?>,
                 loader: '<?=$loader?>',
                 loaderColor: 'red',
                 loaderBgColor: '#222222',
@@ -92,12 +73,9 @@ if ($currentCategory = $myBlock->getCurrentCategory()) {
                 transPeriod: <?= $duration ?>,
                 pauseOnClick: <?= $autoAdvance ?>,
                 pagination: <?= $navigation ?>,
-                barPosition: '<?= $barposition ?>',
-                piePosition: '<?= $pieposition ?>',
+                barPosition: '<?= $barPosition ?>',
+                piePosition: '<?= $piePosition ?>',
             })
         })
     })
 </script>
-
-
-

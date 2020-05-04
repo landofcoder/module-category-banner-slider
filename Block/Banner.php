@@ -3,10 +3,12 @@
 
 namespace Lof\CategoryBannerSlider\Block;
 
-use Lof\CategoryBannerSlider\Model\CategoryBannerFactory;
+use Lof\CategoryBannerSlider\Model\CategoryBanner;
+use Lof\CategoryBannerSlider\Model\ResourceModel\BannerCategory\Collection;
 use Magento\Framework\View\Element\Template;
 use Lof\CategoryBannerSlider\Helper\Data;
 use Magento\Store\Model\StoreManagerInterface;
+use Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config;
 
 /**
  * Class View
@@ -19,6 +21,8 @@ class Banner extends Template
      */
     protected $_helperData;
 
+    protected $_mediaConfig;
+
     /**
      * @var string
      */
@@ -30,27 +34,46 @@ class Banner extends Template
     protected $_registry;
 
     /**
-     * @var CategoryBannerFactory
+     * @var \Lof\CategoryBannerSlider\Model\CategoryBanner
      */
-    protected $_CategoryBannerFactory;
+    protected $_categoryBanner;
 
+
+    /**
+     * @var Collection
+     */
+    protected $_bannerCategoryCollection;
+
+    /**
+     * @var StoreManagerInterface
+     */
     protected $_storeManager;
 
     public function __construct(
         Template\Context $context,
-        \Lof\CategoryBannerSlider\Model\CategoryBannerFactory $CategoryBannerFactory,
+        \Lof\CategoryBannerSlider\Model\CategoryBannerFactory $CategoryBanner,
         \Magento\Framework\Registry $registry,
         Data $helperData,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        \Lof\CategoryBannerSlider\Model\ResourceModel\BannerCategory\Collection $bannerCategoryCollection,
+        \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config $mediaConfig
     )
     {
+        $this->_mediaConfig = $mediaConfig;
+        $this->_bannerCategoryCollection = $bannerCategoryCollection;
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
         $this->_helperData = $helperData;
-        $this->_CategoryBannerFactory = $CategoryBannerFactory;
+        $this->_categoryBanner = $CategoryBanner;
         parent::__construct($context);
     }
 
+
+    public function getMediaUrl()
+    {
+        $mediaUrl = $this->_mediaConfig->getBaseTmpMediaUrl();
+        return $mediaUrl;
+    }
 
     /**
      * @return string|void
@@ -73,20 +96,37 @@ class Banner extends Template
         return $this->_registry->registry('current_category');
     }
 
-    public function getBannerCollection()
+    public function checkBannerCategory()
     {
-        $Bannerollection = $this->_CategoryBannerFactory->create();
-        $Bannerollection->getCollection();
-        return $Bannerollection;
+        $currentCategory = $this->getCurrentCategory();
+        $entityId = $currentCategory->getEntityId();
+        $checkCategory = $this->_bannerCategoryCollection->addFieldToFilter('category_id', $entityId);
+        if ($checkCategory->getData()) {
+            if ($checkCategory->getData('banner_id')) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public function getImageUrl()
-    {
-        $Bannerollection = $this->_CategoryBannerFactory->create()->getCollection();
-        $imagesjson = $Bannerollection->getImages();
+    public function getListBanner(){
+        $currentCategory = $this->getCurrentCategory();
+        $entityId = $currentCategory->getEntityId();
+        $checkCategory = $this->_bannerCategoryCollection->addFieldToFilter('category_id', $entityId);
+        if ($checkCategory->getData('banner_id')) {
+            foreach ($checkCategory->getData() as $key => $item) {
+                $list[$key] = $item['banner_id'];
+            }
+        }
+        return $list;
+    }
 
-        $imageurl = $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
-        return $imagesjson;
+    public function getImagesBannerCategory($bannerId)
+    {
+        $banner = $this->_categoryBanner->create()->load($bannerId);
+        $jsonImages = $banner->getData("images");
+        $images = get_object_vars(json_decode($jsonImages));
+        return $images;
     }
 
     public function getAutoPlayConfig()
@@ -133,25 +173,25 @@ class Banner extends Template
 
     public function getPauseOnHoverConfig()
     {
-        $pauseonhover = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/pause_on_hover_slider');
-        return $pauseonhover;
+        $pauseOnHover = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/pause_on_hover_slider');
+        return $pauseOnHover;
     }
 
     public function getPlayPauseButtonConfig()
     {
-        $pausebuttons = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/button_play_plause_slider');
-        return $pausebuttons;
+        $pauseButtons = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/button_play_plause_slider');
+        return $pauseButtons;
     }
 
     public function getBarPositionConfig()
     {
-        $barposition = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/bar_position_slider');
-        return $barposition;
+        $barPosition = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/bar_position_slider');
+        return $barPosition;
     }
 
     public function getPiePositionConfig()
     {
-        $barposition = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/pie_position_slider');
-        return $barposition;
+        $barPosition = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/pie_position_slider');
+        return $barPosition;
     }
 }
