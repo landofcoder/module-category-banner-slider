@@ -25,25 +25,25 @@ $listBanner = $block->getListBanner();
 
 <?php
 if ($allowShowBanner == 1) {
-    foreach ($listBanner as $bannerId){
+    foreach ($listBanner as $bannerId) {
         $getImages = $block->getImagesBannerCategory($bannerId);
         ?>
-    <div class="camera_wrap">
-        <?php
-        foreach ($getImages as $image){
-            $imagesurl = $mediaUrl.$image;
-            ?>
-            <div data-src="<?= $imagesurl ?>">
-                <img src="<?=$imagesurl?>">
-                <div class="camera_caption">
-                    <p>Caption 1</p>
-                </div>
-            </div>
+        <div id="camera_wrap_<?php echo $bannerId ?>" data-id="<?php echo $bannerId ?>" class="camera_slider">
             <?php
-        }
-        ?>
-    </div>
-    <?php
+            foreach ($getImages as $image) {
+                $imagesurl = $mediaUrl . $image;
+                ?>
+                <div data-src="<?= $imagesurl ?>">
+                    <img src="<?= $imagesurl ?>">
+                    <div class="camera_caption">
+                        <p>Caption 1</p>
+                    </div>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+        <?php
     }
 }
 ?>
@@ -57,24 +57,29 @@ if ($allowShowBanner == 1) {
     ], function ($) {
         "use strict";
         $(document).ready(function () {
-            $('.camera_wrap').camera({
-                fx: "<?= $effect ?>",
-                autoAdvance:<?= $autoAdvance ?>,
-                playPause: <?= $buttonsPlayPause ?>,
-                navigation: <?= $navigation ?>,
-                navigationHover: true,
-                hover: <?= $pauseOnHover ?>,
-                loader: '<?=$loader?>',
-                loaderColor: 'red',
-                loaderBgColor: '#222222',
-                loaderOpacity: 1,
-                loaderPadding: 0,
-                time: <?= $interval ?>,
-                transPeriod: <?= $duration ?>,
-                pauseOnClick: <?= $autoAdvance ?>,
-                pagination: <?= $navigation ?>,
-                barPosition: '<?= $barPosition ?>',
-                piePosition: '<?= $piePosition ?>',
+            $('.camera_slider').each(function () {
+                const dataId = $(this).attr('data-id');
+                const id = 'camera_wrap_' + dataId;
+
+                $('#' + id).camera({
+                    fx: "<?= $effect ?>",
+                    autoAdvance:<?= $autoAdvance ?>,
+                    playPause: <?= $buttonsPlayPause ?>,
+                    navigation: <?= $navigation ?>,
+                    navigationHover: true,
+                    hover: <?= $pauseOnHover ?>,
+                    loader: '<?=$loader?>',
+                    loaderColor: 'red',
+                    loaderBgColor: '#222222',
+                    loaderOpacity: 1,
+                    loaderPadding: 0,
+                    time: <?= $interval ?>,
+                    transPeriod: <?= $duration ?>,
+                    pauseOnClick: <?= $autoAdvance ?>,
+                    pagination: <?= $navigation ?>,
+                    barPosition: '<?= $barPosition ?>',
+                    piePosition: '<?= $piePosition ?>',
+                })
             })
         })
     })
