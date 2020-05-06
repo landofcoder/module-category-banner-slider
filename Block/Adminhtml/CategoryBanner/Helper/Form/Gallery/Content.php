@@ -106,7 +106,7 @@ class Content extends \Magento\Backend\Block\Widget
         );
 
         $this->getUploader()->getConfig()->setUrl(
-            $this->_urlBuilder->addSessionParam()->getUrl('lof_categorybannerslider/categorybanner/upload')
+            $this->_urlBuilder->getUrl('lof_categorybannerslider/categorybanner/upload')
         )->setFileField(
             'image'
         )->setFilters(
