@@ -44,7 +44,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $installer->startSetup();
 
-        if (version_compare($context->getVersion(), '2.2.8', '<')) {
+        if (version_compare($context->getVersion(), '2.3.0', '<')) {
             $installer->getConnection()->addColumn(
                 $installer->getTable('lof_category_banner'),
                 'customer_group_id',
@@ -103,6 +103,16 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     'nullable' => true,
                     'unsigned' => true,
                     'comment' => 'Show Banner Title'
+                ]
+            );
+            $installer->getConnection()->addColumn(
+                $installer->getTable('lof_category_banner'),
+                'location',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'nullable' => true,
+                    'unsigned' => true,
+                    'comment' => 'Location'
                 ]
             );
         }

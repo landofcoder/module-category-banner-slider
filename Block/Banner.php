@@ -129,6 +129,15 @@ class Banner extends Template
         return $images;
     }
 
+    public function getStatusdBanner($bannerId)
+    {
+        $banner = $this->_categoryBanner->create()->load($bannerId);
+        $status = $banner->getData("status");
+        return $status;
+    }
+
+
+
     public function getAutoPlayConfig()
     {
         $autoplay = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/auto_play_slider');
