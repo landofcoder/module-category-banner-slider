@@ -24,11 +24,12 @@
 namespace Lof\CategoryBannerSlider\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
 use Magento\Store\Model\StoreManager;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-
+use Lof\CategoryBannerSlider\Model\CategoryBannerFactory;
 
 /**
  * Class Data
@@ -42,12 +43,14 @@ class Data extends AbstractHelper
      */
     protected $_storeManager;
 
-    protected $_CategoryBannerFactory;
+    protected $_categoryBannerFactory;
 
     /**
      * @var ScopeConfigInterface
      */
     protected $scopeConfig;
+
+    protected $HttpContext;
 
     const XML_PATH_AUTO_PLAY_SLIDER = 'lofcategorybannerslider/slider/auto_play_slider';
     const XML_PATH_SELECT_ANIMATION_SLIDER = 'lofcategorybannerslider/slider/auto_play_slider';
@@ -57,8 +60,13 @@ class Data extends AbstractHelper
      * @param Context $context
      * @param StoreManager $_storeManager
      */
-    public function __construct(Context $context, StoreManager $_storeManager, ScopeConfigInterface $scopeConfig)
+    public function __construct(Context $context, StoreManager $_storeManager,
+                                ScopeConfigInterface $scopeConfig,
+                                CategoryBannerFactory $categoryBannerFactory,
+                                HttpContext $HttpContext)
     {
+        $this->HttpContext =$HttpContext;
+        $this->_categoryBannerFactory = $categoryBannerFactory;
         $this->scopeConfig = $scopeConfig;
         $this->_storeManager = $_storeManager;
         parent::__construct($context);
@@ -88,6 +96,11 @@ class Data extends AbstractHelper
         return $this->scopeConfig->getValue($xmlpath, $storeScope);
     }
 
+    public function getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
+    }
+
 
     /**
      * @param null $storeId
@@ -96,5 +109,22 @@ class Data extends AbstractHelper
     public function getEnable($storeId = null)
     {
         return $this->getConfig('lofcategorybannerslider/general/enabled', $storeId);
+    }
+
+
+    /**
+     * @return \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection
+     */
+    public function getActiveBannerSlider()
+    {
+        /** @var \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection $collection */
+        $collection = $this->_categoryBannerFactory->create()
+            ->getCollection()
+            ->addFieldToFilter('customer_group_id', [
+                'finset' => $this->HttpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP)
+            ])
+            ->addFieldToFilter('status', 1)->addOrder(' priority');
+
+        return $collection;
     }
 }

@@ -80,7 +80,7 @@ class Banner extends Template
      */
     protected function _toHtml()
     {
-        if ($this->_helperData->getEnable() == 0) {
+        if ($this->_helperData->getStoreId() == 1) {
             return;
         }
         return parent::_toHtml();
@@ -128,15 +128,6 @@ class Banner extends Template
         $images = get_object_vars(json_decode($jsonImages));
         return $images;
     }
-
-    public function getStatusdBanner($bannerId)
-    {
-        $banner = $this->_categoryBanner->create()->load($bannerId);
-        $status = $banner->getData("status");
-        return $status;
-    }
-
-
 
     public function getAutoPlayConfig()
     {

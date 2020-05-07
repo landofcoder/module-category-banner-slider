@@ -26,27 +26,25 @@ $listBanner = $block->getListBanner();
 <?php
 if ($allowShowBanner == 1) {
     foreach ($listBanner as $bannerId) {
-        if ($block->getStatusdBanner($bannerId) == 1) {
-            $getImages = $block->getImagesBannerCategory($bannerId);
-            ?>
-            <div id="camera_wrap_<?php echo $bannerId ?>" data-id="<?php echo $bannerId ?>" class="camera_slider">
-                <?php
-                foreach ($getImages as $image) {
-                    $imagesurl = $mediaUrl . $image;
-                    ?>
-                    <div data-src="<?= $imagesurl ?>">
-                        <img src="<?= $imagesurl ?>">
-                        <div class="camera_caption">
-                            <p>Caption 1</p>
-                        </div>
-                    </div>
-                    <?php
-                }
-
-                ?>
-            </div>
+        $getImages = $block->getImagesBannerCategory($bannerId);
+        ?>
+        <div id="camera_wrap_<?php echo $bannerId ?>" data-id="<?php echo $bannerId ?>" class="camera_slider">
             <?php
-        }
+            foreach ($getImages as $image) {
+                $imagesurl = $mediaUrl . $image;
+                ?>
+                <div data-src="<?= $imagesurl ?>">
+                    <img src="<?= $imagesurl ?>">
+                    <div class="camera_caption">
+                        <p>Caption 1</p>
+                    </div>
+                </div>
+                <?php
+            }
+
+            ?>
+        </div>
+        <?php
     }
 }
 ?>
