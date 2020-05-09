@@ -27,9 +27,10 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Store\Model\StoreManager;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Lof\CategoryBannerSlider\Model\CategoryBannerFactory;
+use Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\CollectionFactory;
 
 /**
  * Class Data
@@ -43,7 +44,16 @@ class Data extends AbstractHelper
      */
     protected $_storeManager;
 
+    /**
+     * @var CollectionFactory
+     */
     protected $_categoryBannerFactory;
+
+
+    /**
+     * @var ObjectManagerInterface
+     */
+    protected $_objectManager;
 
     /**
      * @var ScopeConfigInterface
@@ -59,13 +69,22 @@ class Data extends AbstractHelper
      * Data constructor.
      * @param Context $context
      * @param StoreManager $_storeManager
+     * @param ScopeConfigInterface $scopeConfig
+     * @param CollectionFactory $categoryBannerFactory
+     * @param HttpContext $HttpContext
+     * @param ObjectManagerInterface $objectManager
      */
-    public function __construct(Context $context, StoreManager $_storeManager,
-                                ScopeConfigInterface $scopeConfig,
-                                CategoryBannerFactory $categoryBannerFactory,
-                                HttpContext $HttpContext)
+    public function __construct(
+        Context $context,
+        StoreManager $_storeManager,
+        ScopeConfigInterface $scopeConfig,
+        CollectionFactory $categoryBannerFactory,
+        HttpContext $HttpContext,
+        ObjectManagerInterface $objectManager
+    )
     {
-        $this->HttpContext =$HttpContext;
+        $this->_objectManager = $objectManager;
+        $this->HttpContext = $HttpContext;
         $this->_categoryBannerFactory = $categoryBannerFactory;
         $this->scopeConfig = $scopeConfig;
         $this->_storeManager = $_storeManager;
@@ -112,19 +131,46 @@ class Data extends AbstractHelper
     }
 
 
-    /**
-     * @return \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection
-     */
-    public function getActiveBannerSlider()
-    {
-        /** @var \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection $collection */
-        $collection = $this->_categoryBannerFactory->create()
-            ->getCollection()
-            ->addFieldToFilter('customer_group_id', [
-                'finset' => $this->HttpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP)
-            ])
-            ->addFieldToFilter('status', 1)->addOrder(' priority');
+//    /**
+//     * @return \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection
+//     */
+//    public function getActiveBannerSlider()
+//    {
+//        /** @var \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection $collection */
+//        $collection = $this->_categoryBannerFactory->create()
+//            ->getCollection()
+//            ->addFieldToFilter('customer_group_id', [
+//                'finset' => $this->HttpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP)
+//            ])
+//            ->addFieldToFilter('status', 1)->addOrder(' priority');
+//
+//        return $collection;
+//    }
 
+
+    public function getActiveBanners()
+    {
+        $storeId = $this->_storeManager->getStore()->getId();
+
+
+        $collection = $this->_categoryBannerFactory->create();
+        $collection->addFieldToFilter('enable', 1);
+        $collection->addOrder('priority');
+
+        $collection->setStoreFilters($storeId);
         return $collection;
+    }
+
+
+    public function getBannerCollection()
+    {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $storeManager = $objectManager->create("\Magento\Store\Model\StoreManagerInterface");
+        $storeId = $storeManager->getStore()->getId();
+        $bannerCollection = $this->_categoryBannerFactory->create()->addFieldToFilter('customer_group_id', [
+            'finset' => $this->HttpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP)
+        ])->setStoreFilters($storeId)->setOrder('priority', 'asc');
+
+        return $bannerCollection;
     }
 }

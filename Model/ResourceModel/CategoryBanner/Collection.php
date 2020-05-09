@@ -47,7 +47,6 @@ class Collection extends AbstractCollection
     }
 
 
-
     public function addStoreFilter($store, $withAdmin = true)
     {
         $this->performAddStoreFilter($store, $withAdmin);
@@ -58,4 +57,21 @@ class Collection extends AbstractCollection
     {
         $this->joinStoreRelationTable('lof_category_banner_store', 'banner_id');
     }
+
+    public function setStoreFilters($storeId)
+    {
+        $stores = [
+            \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+            $storeId
+        ];
+
+        $this->getSelect()
+            ->joinLeft(
+                ['tbl_store' => $this->getTable('lof_category_banner_category')],
+                'main_table.banner_id = tbl_store.banner_id',
+                []
+            )->where('tbl_store.store_id IN (?)', $stores)
+            ->group('main_table.banner_id');
+    }
+
 }

@@ -13,4 +13,20 @@
         <css src="Lof_CategoryBannerSlider::css/camera.css"/>
         <css src="Lof_CategoryBannerSlider::css/animate.css"/>
     </head>
+    <body>
+        <referenceContainer name="content.top">
+            <block class="Lof\CategoryBannerSlider\Block\Banner">
+                <action method="setBannerPosition">
+                    <argument name="position" xsi:type="string">content-top</argument>
+                </action>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content.bottom">
+            <block class="Lof\CategoryBannerSlider\Block\Banner">
+                <action method="setBannerPosition">
+                    <argument name="position" xsi:type="string">content-bottom</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
 </page>

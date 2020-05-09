@@ -29,7 +29,7 @@ use Magento\Framework\Api\DataObjectHelper;
 
 class BannerCategory extends \Magento\Framework\Model\AbstractModel
 {
-    protected $categorybannerDataFactory;
+    protected $bannerCategoryDataFactory;
 
     protected $dataObjectHelper;
 
@@ -38,23 +38,17 @@ class BannerCategory extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param CategoryBannerInterfaceFactory $categorybannerDataFactory
-     * @param DataObjectHelper $dataObjectHelper
-     * @param \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner $resource
-     * @param \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection $resourceCollection
+     * @param \Lof\CategoryBannerSlider\Model\ResourceModel\BannerCategory $resource
+     * @param \Lof\CategoryBannerSlider\Model\ResourceModel\BannerCategory\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        CategoryBannerInterfaceFactory $categorybannerDataFactory,
-        DataObjectHelper $dataObjectHelper,
-        \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner $resource,
-        \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection $resourceCollection,
+        \Lof\CategoryBannerSlider\Model\ResourceModel\BannerCategory $resource,
+        \Lof\CategoryBannerSlider\Model\ResourceModel\BannerCategory\Collection $resourceCollection,
         array $data = []
     ) {
-        $this->categorybannerDataFactory = $categorybannerDataFactory;
-        $this->dataObjectHelper = $dataObjectHelper;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
