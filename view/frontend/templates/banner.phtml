@@ -7,10 +7,8 @@
  */
 ?>
 <?php
-$allowShowBanner = $block->checkBannerCategory();
+
 $bannerCollection = $block->getBannerCollection();
-$listBanner = $block->getListBanner();
-//$collection = $block->getBannerCollection();
 $mediaUrl = $block->getMediaUrl();
 $autoAdvance = $block->getAutoPlayConfig();
 $effect = $block->getEffectConfig();
@@ -22,28 +20,46 @@ $pauseOnHover = $block->getPauseOnHoverConfig();
 $buttonsPlayPause = $block->getPlayPauseButtonConfig();
 $barPosition = $block->getBarPositionConfig();
 $piePosition = $block->getPiePositionConfig();
-//$listBanner = $block->getListBanner();
 ?>
 
 <?php
-if ($allowShowBanner == 1) {
-    foreach ($listBanner as $bannerId) {
-        ?>
-        <div id="camera_wrap_<?= $bannerId ?>" data-id="<?= $bannerId ?>" class="camera_slider">
-            <div data-src="http://lofextension.demo4coder.com/media/lof/categorybannerslider/banner/i/r/ironmanbanner-15555764420461118746306_1.jpg">
-                <img src="http://lofextension.demo4coder.com/media/lof/categorybannerslider/banner/i/r/ironmanbanner-15555764420461118746306_1.jpg">
+
+
+foreach ($bannerCollection as $banner) {
+    $getImages = get_object_vars(json_decode($banner['images']));
+    ?>
+    <div id="camera_wrap_<?= $banner['banner_id'] ?>" data-id="<?= $banner['banner_id'] ?>"
+         class="camera_slider">
+        <?php
+        foreach ($getImages as $image) {
+            $imageUrl = $mediaUrl . $image;
+            ?>
+            <div data-src="<?= $imageUrl ?>">
+                <div class="banner-title">
+                    <b><?= $banner['title'] ?></b>
+                </div>
+                <img src=" <?= $imageUrl ?> ">
                 <div class="camera_caption">
-                    <p>Caption 1</p>
+                    <p><?= $banner['description'] ?></p>
                 </div>
             </div>
-            <?php
-            ?>
-        </div>
-        <?php
-    }
+        <?php } ?>
+    </div>
+    <?php
 }
 
 ?>
+
+
+<style>
+    .banner-title {
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.8);
+        max-width: 15%;
+        padding: 10px;
+    }
+</style>
+
 
 <script>
     require([
@@ -52,30 +68,28 @@ if ($allowShowBanner == 1) {
         'Lof_CategoryBannerSlider/js/camera.min'
     ], function ($) {
         "use strict";
-        $(document).ready(function () {
-            $('.camera_slider').each(function () {
-                const dataId = $(this).attr('data-id');
-                const id = 'camera_wrap_' + dataId;
-
-                $('#' + id).camera({
-                    fx: "<?= $effect ?>",
-                    autoAdvance:<?= $autoAdvance ?>,
-                    playPause: <?= $buttonsPlayPause ?>,
-                    navigation: <?= $navigation ?>,
-                    navigationHover: true,
-                    hover: <?= $pauseOnHover ?>,
-                    loader: '<?=$loader?>',
-                    loaderColor: 'red',
-                    loaderBgColor: '#222222',
-                    loaderOpacity: 1,
-                    loaderPadding: 0,
-                    time: <?= $interval ?>,
-                    transPeriod: <?= $duration ?>,
-                    pauseOnClick: <?= $autoAdvance ?>,
-                    pagination: <?= $navigation ?>,
-                    barPosition: '<?= $barPosition ?>',
-                    piePosition: '<?= $piePosition ?>',
-                })
+        $('.camera_slider').each(function () {
+            const dataId = $(this).attr('data-id');
+            const id = 'camera_wrap_' + dataId;
+            console.log('#' + id);
+            $('#' + id).camera({
+                fx: "<?= $effect ?>",
+                autoAdvance:<?= $autoAdvance ?>,
+                playPause: <?= $buttonsPlayPause ?>,
+                navigation: <?= $navigation ?>,
+                navigationHover: true,
+                hover: <?= $pauseOnHover ?>,
+                loader: '<?=$loader?>',
+                loaderColor: 'red',
+                loaderBgColor: '#222222',
+                loaderOpacity: 1,
+                loaderPadding: 0,
+                time: <?= $interval ?>,
+                transPeriod: <?= $duration ?>,
+                pauseOnClick: <?= $autoAdvance ?>,
+                pagination: <?= $navigation ?>,
+                barPosition: '<?= $barPosition ?>',
+                piePosition: '<?= $piePosition ?>',
             })
         })
     })

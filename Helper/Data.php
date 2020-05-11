@@ -131,37 +131,6 @@ class Data extends AbstractHelper
     }
 
 
-//    /**
-//     * @return \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection
-//     */
-//    public function getActiveBannerSlider()
-//    {
-//        /** @var \Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\Collection $collection */
-//        $collection = $this->_categoryBannerFactory->create()
-//            ->getCollection()
-//            ->addFieldToFilter('customer_group_id', [
-//                'finset' => $this->HttpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP)
-//            ])
-//            ->addFieldToFilter('status', 1)->addOrder(' priority');
-//
-//        return $collection;
-//    }
-
-
-    public function getActiveBanners()
-    {
-        $storeId = $this->_storeManager->getStore()->getId();
-
-
-        $collection = $this->_categoryBannerFactory->create();
-        $collection->addFieldToFilter('enable', 1);
-        $collection->addOrder('priority');
-
-        $collection->setStoreFilters($storeId);
-        return $collection;
-    }
-
-
     public function getBannerCollection()
     {
         $objectManager = \Magento\Framework\App\ObjectManager::getInstance();

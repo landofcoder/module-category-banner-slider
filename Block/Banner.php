@@ -3,13 +3,13 @@
 
 namespace Lof\CategoryBannerSlider\Block;
 
-use Lof\CategoryBannerSlider\Model\ResourceModel\BannerCategory\Collection;
 use Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\CollectionFactory;
 use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Framework\View\Element\Template;
 use Lof\CategoryBannerSlider\Helper\Data;
 use Magento\Store\Model\StoreManagerInterface;
 use Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config;
+use phpDocumentor\Reflection\Types\This;
 
 /**
  * Class View
@@ -33,8 +33,6 @@ class Banner extends Template
 
     protected $HttpContext;
 
-    public $_bannerCollection = null;
-
     /**
      * @var \Magento\Framework\Registry
      */
@@ -49,11 +47,7 @@ class Banner extends Template
      * @var null
      */
     protected $_position = null;
-
-    /**
-     * @var Collection
-     */
-    protected $_bannerCategoryCollection;
+    protected $_bannerCollection = null;
 
     /**
      * @var StoreManagerInterface
@@ -67,7 +61,6 @@ class Banner extends Template
      * @param \Magento\Framework\Registry $registry
      * @param Data $helperData
      * @param StoreManagerInterface $storeManager
-     * @param Collection $bannerCategoryCollection
      * @param Config $mediaConfig
      */
     public function __construct(
@@ -76,14 +69,12 @@ class Banner extends Template
         \Magento\Framework\Registry $registry,
         Data $helperData,
         StoreManagerInterface $storeManager,
-        \Lof\CategoryBannerSlider\Model\ResourceModel\BannerCategory\Collection $bannerCategoryCollection,
         \Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config $mediaConfig,
         HttpContext $HttpContext
     )
     {
         $this->_mediaConfig = $mediaConfig;
         $this->HttpContext = $HttpContext;
-        $this->_bannerCategoryCollection = $bannerCategoryCollection;
         $this->_storeManager = $storeManager;
         $this->_registry = $registry;
         $this->_helperData = $helperData;
@@ -91,6 +82,49 @@ class Banner extends Template
         $this->_categoryBannerFactory = $categoryBannerFactory;
         parent::__construct($context);
     }
+
+    /**
+     * @param $positon
+     */
+    public function setBannerPosition($positon)
+    {
+        if ($this->_helperData->getEnable() == 1) {
+            $storeId = $this->_storeManager->getStore()->getId();
+            $bannerCollection = $this->_categoryBannerFactory->create();
+            $bannerCollection->setStoreFilters($storeId);
+            $bannerCollection->addFieldToFilter('location', $positon);
+            $bannerCollection->addFieldToFilter('customer_group_id', [
+                'finset' => $this->HttpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP)
+            ]);
+            $this->addPageToFilter($bannerCollection);
+            $_template = "banner.phtml";
+            $this->setTemplate($_template);
+
+            if (count($bannerCollection->getData())) {
+                $this->_bannerCollection = $bannerCollection;
+                $this->_position = $positon;
+            }
+        }
+
+    }
+
+    public function addPageToFilter(&$collection)
+    {
+        $page_name = $this->getRequest()->getFullActionName();
+        if ($page_name == 'catalog_category_view') {
+            $category_id = $this->getRequest()->getParam('id', 0);
+            $collection->getSelect()
+                ->joinLeft(
+                    ['tbl_categories' => $collection->getTable('lof_category_banner_category')],
+                    'main_table.banner_id = tbl_categories.banner_id',
+                    []
+                )->where('tbl_categories.category_id IN (?)', $category_id);
+        } else {
+            $collection->getSelect()->where('page_name LIKE "%' . $page_name . '%") ');
+        }
+        return $collection;
+    }
+
 
     /**
      * @return string
@@ -102,39 +136,8 @@ class Banner extends Template
     }
 
     /**
-     * @return string|void
-     */
-//    protected function _toHtml()
-//    {
-//        if ($this->_helperData->getEnable() == 1) {
-//            return;
-//        }
-//        return parent::_toHtml();
-//    }
-
-
-
-    /**
-     * @param $positon
-     */
-    public function setBannerPosition($positon)
-    {
-        $bannerCollection = $this->_categoryBannerFactory->create();
-        $bannerCollection->addFieldToFilter('location', $positon);
-
-        if ($bannerCollection->getData()) {
-            $checkcustomer = $bannerCollection->addFieldToFilter('customer_group_id', [
-                'finset' => $this->HttpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP)
-            ]);
-            if ($checkcustomer->getData()) {
-                $_template = "banner.phtml";
-                $this->setTemplate($_template);
-
-            }
-        }
-    }
-
-    /**
+     *
+     * /**
      * @return Banner
      */
     public function _prepareLayout()
@@ -155,64 +158,9 @@ class Banner extends Template
      */
     public function getBannerCollection()
     {
-        return $this->_categoryBannerFactory;
+        return $this->_bannerCollection;
     }
 
-    /**
-     * @return mixed|null
-     */
-    public function getCurrentCategory()
-    {
-        return $this->_registry->registry('current_category');
-    }
-
-    /**
-     * @return bool
-     */
-    public function checkBannerCategory()
-    {
-        $currentCategory = $this->getCurrentCategory();
-        if ($currentCategory) {
-            $checkCategory = $this->_bannerCategoryCollection->addFieldToFilter('category_id', $currentCategory->getEntityId());
-            if ($checkCategory->getData()) {
-                if ($checkCategory->getData('banner_id')) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getListBanner()
-    {
-        $currentCategory = $this->getCurrentCategory();
-        if ($currentCategory) {
-            $checkCategory = $this->_bannerCategoryCollection->addFieldToFilter('category_id', $currentCategory->getEntityId());
-            if ($checkCategory->getData('banner_id')) {
-                foreach ($checkCategory->getData() as $key => $item) {
-                    $list[$key] = $item['banner_id'];
-                }
-            }
-        }
-        return $list;
-    }
-
-    /**
-     * @param $bannerId
-     * @return array
-     */
-    public function getImagesBannerCategory($bannerId)
-    {
-        $bannerCollection = $this->_categoryBannerFactory->create();
-        $bannerCollection->load($bannerId);
-        $jsonImages = $bannerCollection->getData();
-        $images = get_object_vars(json_decode($jsonImages->getImages()));
-        return $images;
-    }
 
     public function getAutoPlayConfig()
     {

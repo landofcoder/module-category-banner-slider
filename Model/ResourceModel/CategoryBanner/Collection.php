@@ -64,10 +64,9 @@ class Collection extends AbstractCollection
             \Magento\Store\Model\Store::DEFAULT_STORE_ID,
             $storeId
         ];
-
         $this->getSelect()
             ->joinLeft(
-                ['tbl_store' => $this->getTable('lof_category_banner_category')],
+                ['tbl_store' => $this->getTable('lof_category_banner_store')],
                 'main_table.banner_id = tbl_store.banner_id',
                 []
             )->where('tbl_store.store_id IN (?)', $stores)
