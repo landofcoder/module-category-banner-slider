@@ -34,29 +34,48 @@ foreach ($bannerCollection as $banner) {
         foreach ($getImages as $image) {
             $imageUrl = $mediaUrl . $image;
             ?>
-            <div data-src="<?= $imageUrl ?>">
-                <div class="banner-title">
-                    <b><?= $banner['title'] ?></b>
-                </div>
-                <img src=" <?= $imageUrl ?> ">
-                <div class="camera_caption">
-                    <p><?= $banner['description'] ?></p>
-                </div>
+            <div id="lof-images" data-src="<?= $imageUrl ?>">
+                <img src="<?= $imageUrl ?>">
+                <?php
+                if ($banner['show_banner_content'] == 1) {
+                    ?>
+                    <?php
+                    if ($banner['show_banner_title'] == 1) {
+                        ?>
+                        <div class="lof-title">
+                            <span class="lof-title-banner"><?= $banner['title'] ?></span>
+                        </div>
+                    <?php } ?>
+                    <div class="camera_caption">
+                        <p class="lof-description-banner"><?= $banner['description'] ?></p>
+                    </div>
+                <?php } ?>
             </div>
         <?php } ?>
     </div>
+    <script>
+        require([
+            'jquery',
+        ], function ($) {
+            "use strict";
+            $(document).ready(function () {
+                $(".camera_slider").click(function () {
+                    window.location = "http://www.google.com/";
+                });
+            })
+        })
+    </script>
     <?php
 }
-
 ?>
 
-
 <style>
-    .banner-title {
+    .lof-title-banner {
         color: #ffffff;
         background: rgba(0, 0, 0, 0.8);
-        max-width: 15%;
+        line-height: 40px;
         padding: 10px;
+        font-weight: bold;
     }
 </style>
 
@@ -68,29 +87,33 @@ foreach ($bannerCollection as $banner) {
         'Lof_CategoryBannerSlider/js/camera.min'
     ], function ($) {
         "use strict";
-        $('.camera_slider').each(function () {
-            const dataId = $(this).attr('data-id');
-            const id = 'camera_wrap_' + dataId;
-            console.log('#' + id);
-            $('#' + id).camera({
-                fx: "<?= $effect ?>",
-                autoAdvance:<?= $autoAdvance ?>,
-                playPause: <?= $buttonsPlayPause ?>,
-                navigation: <?= $navigation ?>,
-                navigationHover: true,
-                hover: <?= $pauseOnHover ?>,
-                loader: '<?=$loader?>',
-                loaderColor: 'red',
-                loaderBgColor: '#222222',
-                loaderOpacity: 1,
-                loaderPadding: 0,
-                time: <?= $interval ?>,
-                transPeriod: <?= $duration ?>,
-                pauseOnClick: <?= $autoAdvance ?>,
-                pagination: <?= $navigation ?>,
-                barPosition: '<?= $barPosition ?>',
-                piePosition: '<?= $piePosition ?>',
-            })
+        $(document).ready(function () {
+            if (!window.loadedCamera) {
+                $('.camera_slider').each(function () {
+                    const dataId = $(this).attr('data-id');
+                    const id = 'camera_wrap_' + dataId;
+                    $('#' + id).camera({
+                        fx: "<?= $effect ?>",
+                        autoAdvance:<?= $autoAdvance ?>,
+                        playPause: <?= $buttonsPlayPause ?>,
+                        navigation: <?= $navigation ?>,
+                        navigationHover: true,
+                        hover: <?= $pauseOnHover ?>,
+                        loader: '<?=$loader?>',
+                        loaderColor: 'red',
+                        loaderBgColor: '#222222',
+                        loaderOpacity: 1,
+                        loaderPadding: 0,
+
+                        time: <?= $interval ?>,
+                        transPeriod: <?= $duration ?>,
+                        pagination: <?= $navigation ?>,
+                        barPosition: '<?= $barPosition ?>',
+                        piePosition: '<?= $piePosition ?>',
+                    })
+                })
+                window.loadedCamera = 1;
+            }
         })
     })
 </script>

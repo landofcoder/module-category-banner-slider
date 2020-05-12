@@ -12,7 +12,7 @@ use Lof\CategoryBannerSlider\Model\CategoryBanner\Media\Config;
 use phpDocumentor\Reflection\Types\This;
 
 /**
- * Class View
+ * Class Banner
  * @package Lof\CategoryBannerSlider\Block
  */
 class Banner extends Template
@@ -22,6 +22,10 @@ class Banner extends Template
      */
     protected $_helperData;
 
+    /**
+     * @var string
+     */
+    protected $_template = 'banner.phtml';
     /**
      * @var Config
      */
@@ -47,6 +51,9 @@ class Banner extends Template
      * @var null
      */
     protected $_position = null;
+    /**
+     * @var null
+     */
     protected $_bannerCollection = null;
 
     /**
@@ -97,17 +104,18 @@ class Banner extends Template
                 'finset' => $this->HttpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP)
             ]);
             $this->addPageToFilter($bannerCollection);
-            $_template = "banner.phtml";
-            $this->setTemplate($_template);
-
+            $bannerCollection->addOrder('priority', 'asc');
             if (count($bannerCollection->getData())) {
                 $this->_bannerCollection = $bannerCollection;
                 $this->_position = $positon;
             }
         }
-
     }
 
+    /**
+     * @param $collection
+     * @return mixed
+     */
     public function addPageToFilter(&$collection)
     {
         $page_name = $this->getRequest()->getFullActionName();
@@ -162,66 +170,99 @@ class Banner extends Template
     }
 
 
+    /**
+     * @return mixed
+     */
     public function getAutoPlayConfig()
     {
         $autoplay = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/auto_play_slider');
         return $autoplay;
     }
 
+    /**
+     * @return mixed
+     */
     public function getEffectConfig()
     {
         $effect = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/select_animation_slider');
         return $effect;
     }
 
+    /**
+     * @return mixed
+     */
     public function getIntervalConfig()
     {
         $interval = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/interval_slider');
         return $interval;
     }
 
+    /**
+     * @return mixed
+     */
     public function getDurationConfig()
     {
         $duration = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/duration_slider');
         return $duration;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPaginationConfig()
     {
         $pagination = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/show_pagination_slider');
         return $pagination;
     }
 
+    /**
+     * @return mixed
+     */
     public function getNavigationConfig()
     {
         $navigation = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/show_navigation_slider');
         return $navigation;
     }
 
+    /**
+     * @return mixed
+     */
     public function getLoaderConfig()
     {
         $loader = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/loader_slider');
         return $loader;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPauseOnHoverConfig()
     {
         $pauseOnHover = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/pause_on_hover_slider');
         return $pauseOnHover;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPlayPauseButtonConfig()
     {
         $pauseButtons = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/button_play_plause_slider');
         return $pauseButtons;
     }
 
+    /**
+     * @return mixed
+     */
     public function getBarPositionConfig()
     {
         $barPosition = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/bar_position_slider');
         return $barPosition;
     }
 
+    /**
+     * @return mixed
+     */
     public function getPiePositionConfig()
     {
         $barPosition = $this->_helperData->getSystemconfig('lofcategorybannerslider/slider/pie_position_slider');

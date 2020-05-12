@@ -43,7 +43,7 @@ class Location implements ArrayInterface
                     [
                         'label' => __('Bottom of sidebar'),
                         'value' => self::CATEGORY_SIDEBAR_BOTTOM
-                    ],
+                    ]
                 ]
             ]
 

@@ -206,36 +206,6 @@
                 <collapsible>true</collapsible>
                 <label translate="true">General Slider Settings</label>
             </settings>
-            <!-- Field select_slider  -->
-            <field name="select_slider" formElement="select" sortOrder="10">
-                <settings>
-                    <dataType>text</dataType>
-                    <label translate="true">Select Slider</label>
-                    <dataScope>select_example1</dataScope>
-                </settings>
-                <formElements>
-                    <select>
-                        <settings>
-                            <options>
-                                <option name="1" xsi:type="array">
-                                    <item name="value" xsi:type="string">0</item>
-                                    <item name="label" xsi:type="string">No Slider</item>
-                                </option>
-                                <option name="2" xsi:type="array">
-                                    <item name="value" xsi:type="string">1</item>
-                                    <item name="label" xsi:type="string">Simple Slider</item>
-                                </option>
-                                <option name="3" xsi:type="array">
-                                    <item name="value" xsi:type="string">2</item>
-                                    <item name="label" xsi:type="string">Camera Slider</item>
-                                </option>
-                            </options>
-                            <caption translate="true">-- Please Select --</caption>
-                        </settings>
-                    </select>
-                </formElements>
-            </field>
-            <!--End Field select_slider  -->
             <!-- Field banner_width-->
             <field formElement="input" name="banner_width" sortOrder="20">
                 <argument name="data" xsi:type="array">
