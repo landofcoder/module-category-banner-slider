@@ -57,36 +57,6 @@ class UpgradeSchema implements UpgradeSchemaInterface
             );
             $installer->getConnection()->addColumn(
                 $installer->getTable('lof_category_banner'),
-                'banner_width',
-                [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                    'nullable' => true,
-                    'unsigned' => true,
-                    'comment' => 'Banner Width'
-                ]
-            );
-            $installer->getConnection()->addColumn(
-                $installer->getTable('lof_category_banner'),
-                'banner_height',
-                [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-                    'nullable' => true,
-                    'unsigned' => true,
-                    'comment' => 'Banner Height'
-                ]
-            );
-            $installer->getConnection()->addColumn(
-                $installer->getTable('lof_category_banner'),
-                'url_image',
-                [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                    [],
-                    'size' => 255,
-                    'comment' => 'URL On Image Click'
-                ]
-            );
-            $installer->getConnection()->addColumn(
-                $installer->getTable('lof_category_banner'),
                 'show_banner_content',
                 [
                     'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,

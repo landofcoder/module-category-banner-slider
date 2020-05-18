@@ -36,6 +36,7 @@ foreach ($bannerCollection as $banner) {
             ?>
             <div id="lof-images" data-src="<?= $imageUrl ?>">
                 <img src="<?= $imageUrl ?>">
+                <a class="camera-link" href="<?= $banner['url_image'] ?>">hieu</a>
                 <?php
                 if ($banner['show_banner_content'] == 1) {
                     ?>
@@ -53,18 +54,6 @@ foreach ($bannerCollection as $banner) {
             </div>
         <?php } ?>
     </div>
-    <script>
-        require([
-            'jquery',
-        ], function ($) {
-            "use strict";
-            $(document).ready(function () {
-                $(".camera_slider").click(function () {
-                    window.location = "http://www.google.com/";
-                });
-            })
-        })
-    </script>
     <?php
 }
 ?>

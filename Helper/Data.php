@@ -129,17 +129,4 @@ class Data extends AbstractHelper
     {
         return $this->getConfig('lofcategorybannerslider/general/enabled', $storeId);
     }
-
-
-    public function getBannerCollection()
-    {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $storeManager = $objectManager->create("\Magento\Store\Model\StoreManagerInterface");
-        $storeId = $storeManager->getStore()->getId();
-        $bannerCollection = $this->_categoryBannerFactory->create()->addFieldToFilter('customer_group_id', [
-            'finset' => $this->HttpContext->getValue(\Magento\Customer\Model\Context::CONTEXT_GROUP)
-        ])->setStoreFilters($storeId)->setOrder('priority', 'asc');
-
-        return $bannerCollection;
-    }
 }

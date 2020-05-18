@@ -7,10 +7,13 @@
  * @author    landofcoder@gmail.com
  */
 -->
-<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_listing_data_source</item>
+            <item name="provider" xsi:type="string">
+                lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_listing_data_source
+            </item>
         </item>
         <item name="buttons" xsi:type="array">
             <item name="add" xsi:type="array">
@@ -24,15 +27,19 @@
     <settings>
         <spinner>lof_categorybannerslider_categorybanner_columns</spinner>
         <deps>
-            <dep>lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_listing_data_source</dep>
+            <dep>
+                lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_listing_data_source
+            </dep>
         </deps>
     </settings>
-    <dataSource component="Magento_Ui/js/grid/provider" name="lof_categorybannerslider_categorybanner_listing_data_source">
+    <dataSource component="Magento_Ui/js/grid/provider"
+                name="lof_categorybannerslider_categorybanner_listing_data_source">
         <settings>
             <updateUrl path="mui/index/render"/>
         </settings>
         <aclResource>Lof_CategoryBannerSlider::CategoryBanner</aclResource>
-        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="lof_categorybannerslider_categorybanner_listing_data_source">
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider"
+                      name="lof_categorybannerslider_categorybanner_listing_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
                 <primaryFieldName>banner_id</primaryFieldName>
@@ -58,7 +65,9 @@
                         <item name="url" xsi:type="url" path="lof_categorybannerslider/categorybanner/massdelete"/>
                         <item name="confirm" xsi:type="array">
                             <item name="title" xsi:type="string" translate="true">Delete items</item>
-                            <item name="message" xsi:type="string" translate="true">Are you sure you wan't to delete selected items?</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you wan't to delete
+                                selected items?
+                            </item>
                         </item>
                     </item>
                 </argument>
@@ -69,7 +78,9 @@
         <settings>
             <childDefaults>
                 <param name="fieldAction" xsi:type="array">
-                    <item name="provider" xsi:type="string">lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_columns.actions</item>
+                    <item name="provider" xsi:type="string">
+                        lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_columns.actions
+                    </item>
                     <item name="target" xsi:type="string">applyAction</item>
                     <item name="params" xsi:type="array">
                         <item name="0" xsi:type="string">edit</item>
@@ -117,8 +128,26 @@
             </settings>
         </column>
         <!--End Column Store View-->
+
+        <column name="location" class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\BannerPostion"
+                sortOrder="60">
+            <settings>
+                <label translate="true">Banner Position</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <column name="customer_group_id" class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CustomerGroup"
+                sortOrder="50">
+            <settings>
+                <label translate="true">Customer Group</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+
         <!--Column Status-->
-        <column name="status" component="Magento_Ui/js/grid/columns/select" >
+        <column name="status" component="Magento_Ui/js/grid/columns/select" sortOrder="100">
             <settings>
                 <options class="Lof\CategoryBannerSlider\Model\CategoryBanner\Source\IsActive"/>
                 <filter>select</filter>
@@ -131,7 +160,9 @@
         </column>
         <!-- End Column Status-->
         <!--Column actionsColumn-->
-        <actionsColumn name="actions" class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CategoryBannerGroupActions">
+        <actionsColumn name="actions"
+                       class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CategoryBannerGroupActions"
+                       sortOrder="9999">
             <settings>
                 <indexField>banner_id</indexField>
                 <resizeDefaultWidth>107</resizeDefaultWidth>
