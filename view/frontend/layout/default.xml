@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * default
+ *
+ * @copyright Copyright © 2020 landofcoder. All rights reserved.
+ * @author    landofcoder@gmail.com
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Lof_CategoryBannerSlider::css/camera.css"/>
+        <css src="Lof_CategoryBannerSlider::css/animate.css"/>
+    </head>
+    <body>
+        <referenceBlock name="content.top">
+            <block class="Lof\CategoryBannerSlider\Block\Banner" template="Lof_CategoryBannerSlider::banner.phtml">
+                <action method="setBannerPosition">
+                    <argument name="position" xsi:type="string">content-top</argument>
+                </action>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="content.bottom">
+            <block class="Lof\CategoryBannerSlider\Block\Banner" template="Lof_CategoryBannerSlider::banner.phtml">
+                <action method="setBannerPosition">
+                    <argument name="position" xsi:type="string">content-bottom</argument>
+                </action>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="page.top">
+            <block class="Lof\CategoryBannerSlider\Block\Banner" template="Lof_CategoryBannerSlider::banner.phtml">
+                <action method="setBannerPosition">
+                    <argument name="position" xsi:type="string">page-top</argument>
+                </action>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="footer-container">
+            <block class="Lof\CategoryBannerSlider\Block\Banner" template="Lof_CategoryBannerSlider::banner.phtml">
+                <action method="setBannerPosition">
+                    <argument name="position" xsi:type="string">footer-container</argument>
+                </action>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="sidebar.main">
+            <block class="Lof\CategoryBannerSlider\Block\Banner" template="Lof_CategoryBannerSlider::banner.phtml">
+                <action method="setBannerPosition">
+                    <argument name="position" xsi:type="string">sidebar-top</argument>
+                </action>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="sidebar.additional">
+            <block class="Lof\CategoryBannerSlider\Block\Banner" template="Lof_CategoryBannerSlider::banner.phtml">
+                <action method="setBannerPosition">
+                    <argument name="position" xsi:type="string">sidebar-bottom</argument>
+                </action>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

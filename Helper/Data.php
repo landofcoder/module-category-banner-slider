@@ -24,7 +24,13 @@
 namespace Lof\CategoryBannerSlider\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Http\Context as HttpContext;
+use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\ObjectManagerInterface;
+use Magento\Store\Model\StoreManager;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\CollectionFactory;
 
 /**
  * Class Data
@@ -34,42 +40,93 @@ use Magento\Store\Model\ScopeInterface;
 class Data extends AbstractHelper
 {
     /**
-     * @var ScopeInterface
+     * @var StoreManager
+     */
+    protected $_storeManager;
+
+    /**
+     * @var CollectionFactory
+     */
+    protected $_categoryBannerFactory;
+
+
+    /**
+     * @var ObjectManagerInterface
+     */
+    protected $_objectManager;
+
+    /**
+     * @var ScopeConfigInterface
      */
     protected $scopeConfig;
 
-    const XML_PATH_BANNER = 'lofcategorybannerslider/';
+    protected $HttpContext;
+
+    const XML_PATH_AUTO_PLAY_SLIDER = 'lofcategorybannerslider/slider/auto_play_slider';
+    const XML_PATH_SELECT_ANIMATION_SLIDER = 'lofcategorybannerslider/slider/auto_play_slider';
 
     /**
-     * @param \Magento\Framework\App\Helper\Context $context
+     * Data constructor.
+     * @param Context $context
+     * @param StoreManager $_storeManager
+     * @param ScopeConfigInterface $scopeConfig
+     * @param CollectionFactory $categoryBannerFactory
+     * @param HttpContext $HttpContext
+     * @param ObjectManagerInterface $objectManager
      */
     public function __construct(
-        \Magento\Store\Model\ScopeInterface $scopeConfig,
-        \Magento\Framework\App\Helper\Context $context
-    ) {
-        parent::__construct($context);
+        Context $context,
+        StoreManager $_storeManager,
+        ScopeConfigInterface $scopeConfig,
+        CollectionFactory $categoryBannerFactory,
+        HttpContext $HttpContext,
+        ObjectManagerInterface $objectManager
+    )
+    {
+        $this->_objectManager = $objectManager;
+        $this->HttpContext = $HttpContext;
+        $this->_categoryBannerFactory = $categoryBannerFactory;
         $this->scopeConfig = $scopeConfig;
+        $this->_storeManager = $_storeManager;
+        parent::__construct($context);
     }
 
     /**
-     * @param $field
-     * @param $storeId
+     * @param $key
+     * @param null $store
+     * @return mixed
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getConfig($key, $store = null)
+    {
+        $store = $this->_storeManager->getStore($store);
+        $result = $this->scopeConfig->getValue(
+            $key,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+        return $result;
+    }
+
+
+    public function getSystemconfig($xmlpath)
+    {
+        $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        return $this->scopeConfig->getValue($xmlpath, $storeScope);
+    }
+
+    public function getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
+    }
+
+
+    /**
+     * @param null $storeId
      * @return mixed
      */
-    public function getConfigValue($field, $storeId)
+    public function getEnable($storeId = null)
     {
-        return $this->scopeConfig->getValue(
-            $field,
-            ScopeInterface::SCOPE_STORE,
-            $storeId
-        );
-    }
-
-    /**
-     * @return bool
-     */
-    public function getGeneralConfig($code, $storeId = null)
-    {
-        return $this->getConfigValue(self::XML_PATH_BANNER . 'general/' . $code, $storeId);
+        return $this->getConfig('lofcategorybannerslider/general/enabled', $storeId);
     }
 }

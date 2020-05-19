@@ -4,7 +4,7 @@
  * See COPYING.txt for license details.
  */
 
-namespace Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CategoryBanner;
+namespace Lof\CategoryBannerSlider\Ui\Component\CategoryBanner\Form\CustomerGroups;
 
 use Magento\Customer\Model\ResourceModel\Group\CollectionFactory;
 

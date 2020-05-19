@@ -44,45 +44,15 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $installer->startSetup();
 
-        if (version_compare($context->getVersion(), '1.2.5', '<')) {
+        if (version_compare($context->getVersion(), '2.3.0', '<')) {
             $installer->getConnection()->addColumn(
                 $installer->getTable('lof_category_banner'),
                 'customer_group_id',
                 [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
                     'nullable' => true,
                     'unsigned' => true,
                     'comment' => 'Customer Group'
-                ]
-            );
-            $installer->getConnection()->addColumn(
-                $installer->getTable('lof_category_banner'),
-                'banner_width',
-                [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-                    'nullable' => true,
-                    'unsigned' => true,
-                    'comment' => 'Banner Width'
-                ]
-            );
-            $installer->getConnection()->addColumn(
-                $installer->getTable('lof_category_banner'),
-                'banner_height',
-                [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-                    'nullable' => true,
-                    'unsigned' => true,
-                    'comment' => 'Banner Height'
-                ]
-            );
-            $installer->getConnection()->addColumn(
-                $installer->getTable('lof_category_banner'),
-                'url_image',
-                [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-                    [],
-                    'size' => 255,
-                    'comment' => 'URL On Image Click'
                 ]
             );
             $installer->getConnection()->addColumn(
@@ -103,6 +73,16 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     'nullable' => true,
                     'unsigned' => true,
                     'comment' => 'Show Banner Title'
+                ]
+            );
+            $installer->getConnection()->addColumn(
+                $installer->getTable('lof_category_banner'),
+                'location',
+                [
+                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'nullable' => true,
+                    'unsigned' => true,
+                    'comment' => 'Location'
                 ]
             );
         }

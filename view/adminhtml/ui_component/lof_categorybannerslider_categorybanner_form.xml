@@ -108,25 +108,11 @@
                 <label translate="true">Priority</label>
                 <dataScope>priority</dataScope>
                 <validation>
-                    <rule name="required-entry" xsi:type="boolean">false</rule>
+                    <rule name="validate-number" xsi:type="boolean">true</rule>
                 </validation>
             </settings>
         </field>
         <!--End Field Priority-->
-        <!-- Field URL On Image Click-->
-        <field formElement="input" name="url_image" sortOrder="40">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="source" xsi:type="string">banner</item>
-                </item>
-            </argument>
-            <settings>
-                <dataType>text</dataType>
-                <label translate="true">URL On Image Click</label>
-                <dataScope>url_image</dataScope>
-            </settings>
-        </field>
-        <!--End Field URL On Image Click-->
         <!-- Field storeview-->
         <field name="storeviews" formElement="multiselect" sortOrder="50">
             <argument name="data" xsi:type="array">
@@ -167,7 +153,7 @@
                 <multiselect>
                     <settings>
                         <options
-                                class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CategoryBanner\CustomerGroup"/>
+                                class="Lof\CategoryBannerSlider\Ui\Component\CategoryBanner\Form\CustomerGroups\CustomerGroup"/>
                     </settings>
                 </multiselect>
             </formElements>
@@ -178,26 +164,12 @@
             <settings>
                 <dataType>text</dataType>
                 <label translate="true">Banner Position</label>
-                <dataScope>select_example</dataScope>
+                <dataScope>location</dataScope>
             </settings>
             <formElements>
                 <select>
                     <settings>
-                        <options>
-                            <option name="1" xsi:type="array">
-                                <item name="value" xsi:type="string">1</item>
-                                <item name="label" xsi:type="string">Between Products</item>
-                            </option>
-                            <option name="2" xsi:type="array">
-                                <item name="value" xsi:type="string">2</item>
-                                <item name="label" xsi:type="string">On Top</item>
-                            </option>
-                            <option name="3" xsi:type="array">
-                                <item name="value" xsi:type="string">3</item>
-                                <item name="label" xsi:type="string">On Bottom</item>
-                            </option>
-                        </options>
-                        <caption translate="true">-- Please Select --</caption>
+                        <options class="Lof\CategoryBannerSlider\Model\CategoryBanner\Source\Location"/>
                     </settings>
                 </select>
             </formElements>
@@ -222,72 +194,6 @@
                 <collapsible>true</collapsible>
                 <label translate="true">General Slider Settings</label>
             </settings>
-            <!-- Field select_slider  -->
-            <field name="select_slider" formElement="select" sortOrder="10">
-                <settings>
-                    <dataType>text</dataType>
-                    <label translate="true">Select Slider</label>
-                    <dataScope>select_example1</dataScope>
-                </settings>
-                <formElements>
-                    <select>
-                        <settings>
-                            <options>
-                                <option name="1" xsi:type="array">
-                                    <item name="value" xsi:type="string">0</item>
-                                    <item name="label" xsi:type="string">No Slider</item>
-                                </option>
-                                <option name="2" xsi:type="array">
-                                    <item name="value" xsi:type="string">1</item>
-                                    <item name="label" xsi:type="string">Simple Slider</item>
-                                </option>
-                                <option name="3" xsi:type="array">
-                                    <item name="value" xsi:type="string">2</item>
-                                    <item name="label" xsi:type="string">Camera Slider</item>
-                                </option>
-                            </options>
-                            <caption translate="true">-- Please Select --</caption>
-                        </settings>
-                    </select>
-                </formElements>
-            </field>
-            <!--End Field select_slider  -->
-            <!-- Field banner_width-->
-            <field formElement="input" name="banner_width" sortOrder="20">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="source" xsi:type="string">CategoryBanner</item>
-                    </item>
-                </argument>
-                <settings>
-                    <dataType>text</dataType>
-                    <label translate="true">Banner Width</label>
-                    <dataScope>banner_width</dataScope>
-                    <validation>
-                        <rule name="required-entry" xsi:type="boolean">true</rule>
-                        <rule name="validate-number" xsi:type="boolean">true</rule>
-                    </validation>
-                </settings>
-            </field>
-            <!--End Field banner_width-->
-            <!-- Field banner_height-->
-            <field formElement="input" name="banner_height" sortOrder="30">
-                <argument name="data" xsi:type="array">
-                    <item name="config" xsi:type="array">
-                        <item name="source" xsi:type="string">CategoryBanner</item>
-                    </item>
-                </argument>
-                <settings>
-                    <dataType>text</dataType>
-                    <label translate="true">Banner Height</label>
-                    <dataScope>banner_height</dataScope>
-                    <validation>
-                        <rule name="required-entry" xsi:type="boolean">true</rule>
-                        <rule name="validate-number" xsi:type="boolean">true</rule>
-                    </validation>
-                </settings>
-            </field>
-            <!--End Field banner_height-->
             <!-- Field Show Banner Content-->
             <field name="show_banner_content" sortOrder="40" formElement="checkbox">
                 <argument name="data" xsi:type="array">
@@ -358,10 +264,13 @@
                 </wrapper>
             </settings>
             <block name="gallery" class="Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Gallery">
-                    <block class="Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Gallery\Content" as="content">
+                <block class="Lof\CategoryBannerSlider\Block\Adminhtml\CategoryBanner\Helper\Form\Gallery\Content"
+                       as="content">
                     <arguments>
                         <argument name="config" xsi:type="array">
-                            <item name="parentComponent" xsi:type="string">lof_categorybannerslider_categorybanner_form.lof_categorybannerslider_categorybanner_form.block_gallery.block_gallery</item>
+                            <item name="parentComponent" xsi:type="string">
+                                lof_categorybannerslider_categorybanner_form.lof_categorybannerslider_categorybanner_form.block_gallery.block_gallery
+                            </item>
                         </argument>
                     </arguments>
                 </block>

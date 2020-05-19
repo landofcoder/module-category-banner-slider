@@ -87,6 +87,8 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         foreach ($items as $model) {
             $this->loadedData[$model->getId()] = $model->getData();
 //            $image = get_object_vars(json_decode($model->getImages()));
+//
+//            $image = ['d8d6bjaqk5j'=> 'http://lofextension.demo4coder.com/media/lof/categorybannerslider/banner/q/k/qkhd1rs.jpg'];
 //            $this->loadedData[$model->getId()]['image'] = $image;
             $resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
             $connection = $resource->getConnection();

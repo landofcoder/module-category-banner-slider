@@ -6,13 +6,17 @@
  */
 
 var config = {
-    map: {
-        '*': {
-            cameraBanner: 'Lof_CategoryBannerSlider/js/camera.min',
-            easingBanner: 'Lof_CategoryBannerSlider/js/easing.min',
-            pluginsBanner: 'Lof_CategoryBannerSlider/js/plugins.min',
-            bootstrapBanner: 'Lof_CategoryBannerSlider/js/bootstrap.min',
-            modernizrBanner: 'Lof_CategoryBannerSlider/js/modernizr-3.5.0.min',
-        }
+    paths: {
+        cameraBanner: 'Lof_CategoryBannerSlider/js/camera.min',
+        easing: 'Lof_CategoryBannerSlider/js/jquery.easing.1.3',
     },
+    shim: {
+        cameraBanner: {
+            deps: ['jquery'],
+        },
+        easing: {
+            deps: ['jquery'],
+        },
+    }
 };
+

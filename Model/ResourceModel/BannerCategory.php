@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) 2019 landofcoder
  *
@@ -21,41 +22,19 @@
  * SOFTWARE.
  */
 
-namespace Lof\CategoryBannerSlider\Controller\Adminhtml;
+namespace Lof\CategoryBannerSlider\Model\ResourceModel;
 
-/**
- * Class CategoryBanner
- *
- * @package Lof\CategoryBannerSlider\Controller\Adminhtml
- */
-abstract class CategoryBanner extends \Magento\Backend\App\Action
+
+class BannerCategory extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
-    const ADMIN_RESOURCE = 'Lof_CategoryBannerSlider::CategoryBanner';
-    protected $_coreRegistry;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\Registry $coreRegistry
-     */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\Registry $coreRegistry
-    ) {
-        $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
-    }
-
-    /**
-     * Init page
+     * Define resource model
      *
-     * @param \Magento\Backend\Model\View\Result\Page $resultPage
-     * @return \Magento\Backend\Model\View\Result\Page
+     * @return void
      */
-    public function initPage($resultPage)
+    protected function _construct()
     {
-        $resultPage->setActiveMenu(self::ADMIN_RESOURCE)
-            ->addBreadcrumb(__('Lof'), __('Lof'))
-            ->addBreadcrumb(__('Categorybanner'), __('Categorybanner'));
-        return $resultPage;
+        $this->_init('lof_category_banner_category', 'banner_id');
     }
 }

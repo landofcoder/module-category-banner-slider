@@ -144,6 +144,7 @@ class CategoryBanner extends \Magento\Framework\Model\ResourceModel\Db\AbstractD
     }
 
 
+
     /**
      * Process page data after saving
      *
