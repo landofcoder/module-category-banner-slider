@@ -1,0 +1,89 @@
+<?php
+/**
+ * banner
+ *
+ * @copyright Copyright © 2020 Landofcoder. All rights reserved.
+ * @author    landofcoder@gmail.com
+ */
+?>
+<?php
+
+$allowShowBanner = $block->checkBannerCategory();
+$mediaUrl = $block->getMediaUrl();
+$autoAdvance = $block->getAutoPlayConfig();
+$effect = $block->getEffectConfig();
+$interval = $block->getIntervalConfig();
+$duration = $block->getDurationConfig();
+$navigation = $block->getNavigationConfig();
+$loader = $block->getLoaderConfig();
+$pauseOnHover = $block->getPauseOnHoverConfig();
+$buttonsPlayPause = $block->getPlayPauseButtonConfig();
+$barPosition = $block->getBarPositionConfig();
+$piePosition = $block->getPiePositionConfig();
+$listBanner = $block->getListBanner();
+?>
+
+<?php
+if ($allowShowBanner == 1) {
+    foreach ($listBanner as $bannerId) {
+        if ($block->getStatusdBanner($bannerId) == 1) {
+            $getImages = $block->getImagesBannerCategory($bannerId);
+            ?>
+            <div id="camera_wrap_<?php echo $bannerId ?>" data-id="<?php echo $bannerId ?>" class="camera_slider">
+                <?php
+                foreach ($getImages as $image) {
+                    $imagesurl = $mediaUrl . $image;
+                    ?>
+                    <div data-src="<?= $imagesurl ?>">
+                        <img src="<?= $imagesurl ?>">
+                        <div class="camera_caption">
+                            <p>Caption 1</p>
+                        </div>
+                    </div>
+                    <?php
+                }
+
+                ?>
+            </div>
+            <?php
+        }
+    }
+}
+?>
+
+
+<script>
+    require([
+        'jquery',
+        'Lof_CategoryBannerSlider/js/jquery.easing.1.3',
+        'Lof_CategoryBannerSlider/js/camera.min'
+    ], function ($) {
+        "use strict";
+        $(document).ready(function () {
+            $('.camera_slider').each(function () {
+                const dataId = $(this).attr('data-id');
+                const id = 'camera_wrap_' + dataId;
+
+                $('#' + id).camera({
+                    fx: "<?= $effect ?>",
+                    autoAdvance:<?= $autoAdvance ?>,
+                    playPause: <?= $buttonsPlayPause ?>,
+                    navigation: <?= $navigation ?>,
+                    navigationHover: true,
+                    hover: <?= $pauseOnHover ?>,
+                    loader: '<?=$loader?>',
+                    loaderColor: 'red',
+                    loaderBgColor: '#222222',
+                    loaderOpacity: 1,
+                    loaderPadding: 0,
+                    time: <?= $interval ?>,
+                    transPeriod: <?= $duration ?>,
+                    pauseOnClick: <?= $autoAdvance ?>,
+                    pagination: <?= $navigation ?>,
+                    barPosition: '<?= $barPosition ?>',
+                    piePosition: '<?= $piePosition ?>',
+                })
+            })
+        })
+    })
+</script>

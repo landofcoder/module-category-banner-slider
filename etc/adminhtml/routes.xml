@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * routes
+ *
+ * @copyright Copyright © 2020 landofcoder. All rights reserved.
+ * @author    landofcoder@gmail.com
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="admin">
+        <route id="lof_categorybannerslider" frontName="lof_categorybannerslider">
+            <module name="Lof_CategoryBannerSlider" />
+        </route>
+    </router>
+</config>

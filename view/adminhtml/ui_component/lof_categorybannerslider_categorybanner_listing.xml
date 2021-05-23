@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * lof_categorybannerslider_categorybanner_listing
+ *
+ * @copyright Copyright © 2020 landofcoder. All rights reserved.
+ * @author    landofcoder@gmail.com
+ */
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_listing_data_source</item>
+        </item>
+        <item name="buttons" xsi:type="array">
+            <item name="add" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Add New CategoryBanner</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">lof_categorybannerslider/categorybanner/new</item>
+            </item>
+        </item>
+    </argument>
+    <settings>
+        <spinner>lof_categorybannerslider_categorybanner_columns</spinner>
+        <deps>
+            <dep>lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_listing_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource component="Magento_Ui/js/grid/provider" name="lof_categorybannerslider_categorybanner_listing_data_source">
+        <settings>
+            <updateUrl path="mui/index/render"/>
+        </settings>
+        <aclResource>Lof_CategoryBannerSlider::CategoryBanner</aclResource>
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="lof_categorybannerslider_categorybanner_listing_data_source">
+            <settings>
+                <requestFieldName>id</requestFieldName>
+                <primaryFieldName>banner_id</primaryFieldName>
+            </settings>
+        </dataProvider>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <settings>
+            <sticky>true</sticky>
+        </settings>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters"/>
+        <paging name="listing_paging"/>
+        <massaction name="listing_massaction"
+                    component="Magento_Ui/js/grid/tree-massactions"
+                    class="\Lof\CategoryBannerSlider\Ui\Component\CategoryBanner\MassActions">
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="lof_categorybannerslider/categorybanner/massdelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete items</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure you wan't to delete selected items?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+    </listingToolbar>
+    <columns name="lof_categorybannerslider_categorybanner_columns">
+        <settings>
+            <childDefaults>
+                <param name="fieldAction" xsi:type="array">
+                    <item name="provider" xsi:type="string">lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_listing.lof_categorybannerslider_categorybanner_columns.actions</item>
+                    <item name="target" xsi:type="string">applyAction</item>
+                    <item name="params" xsi:type="array">
+                        <item name="0" xsi:type="string">edit</item>
+                        <item name="1" xsi:type="string">${ $.$data.rowIndex }</item>
+                    </item>
+                </param>
+            </childDefaults>
+        </settings>
+        <selectionsColumn name="ids">
+            <settings>
+                <indexField>banner_id</indexField>
+            </settings>
+        </selectionsColumn>
+        <!--Column ID-->
+        <column name="banner_id" sortOrder="10">
+            <settings>
+                <filter>text</filter>
+                <sorting>asc</sorting>
+                <label translate="true">ID</label>
+            </settings>
+        </column>
+        <!--End Column ID-->
+        <!--Column priority-->
+        <column name="priority" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Priority</label>
+            </settings>
+        </column>
+        <!--End Column priority-->
+        <!--Column title-->
+        <column name="title" sortOrder="30">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Title</label>
+            </settings>
+        </column>
+        <!--End Column title-->
+        <!--Column Store View-->
+        <column name="store_id" class="Magento\Store\Ui\Component\Listing\Column\Store" sortOrder="40">
+            <settings>
+                <label translate="true">Store View</label>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <sortable>false</sortable>
+            </settings>
+        </column>
+        <!--End Column Store View-->
+        <!--Column Status-->
+        <column name="status" component="Magento_Ui/js/grid/columns/select" >
+            <settings>
+                <options class="Lof\CategoryBannerSlider\Model\CategoryBanner\Source\IsActive"/>
+                <filter>select</filter>
+                <editor>
+                    <editorType>select</editorType>
+                </editor>
+                <dataType>select</dataType>
+                <label translate="true">Status</label>
+            </settings>
+        </column>
+        <!-- End Column Status-->
+        <!--Column actionsColumn-->
+        <actionsColumn name="actions" class="Lof\CategoryBannerSlider\Ui\Component\Listing\Column\CategoryBannerGroupActions">
+            <settings>
+                <indexField>banner_id</indexField>
+                <resizeDefaultWidth>107</resizeDefaultWidth>
+            </settings>
+        </actionsColumn>
+        <!--End Column actionsColumn-->
+    </columns>
+</listing>
