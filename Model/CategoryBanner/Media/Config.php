@@ -86,8 +86,8 @@ class Config implements ConfigInterface
     public function getBaseTmpMediaUrl()
     {
         return $this->storeManager->getStore()->getBaseUrl(
-                \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
-            ) . 'lof/' . $this->getBaseMediaUrlAddition();
+            \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
+        ) . 'lof/' . $this->getBaseMediaUrlAddition();
     }
 
     /**

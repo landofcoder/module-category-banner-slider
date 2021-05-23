@@ -18,7 +18,7 @@
                 <auto_play_slider>1</auto_play_slider>
                 <interval_slider>7200</interval_slider>
                 <pause_on_hover_slider>1</pause_on_hover_slider>
-                <select_animation_slider></select_animation_slider>
+                <select_animation_slider>1</select_animation_slider>
                 <loader_slider>1</loader_slider>
                 <show_navigation_slider>1</show_navigation_slider>
                 <show_pagination_slider>1</show_pagination_slider>

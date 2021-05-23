@@ -7,12 +7,12 @@ use Magento\Framework\Option\ArrayInterface;
 
 class Location implements ArrayInterface
 {
-    const CATEGORY_CONTENT_TOP = 'catalog_category_view.content-top';
-    const CATEGORY_CONTENT_BOTTOM = 'catalog_category_view.content-bottom';
-    const CATEGORY_PAGE_TOP = 'catalog_category_view.page-top';
-    const CATEGORY_PAGE_BOTTOM = 'catalog_category_view.footer-container';
-    const CATEGORY_SIDEBAR_TOP = 'catalog_category_view.sidebar-top';
-    const CATEGORY_SIDEBAR_BOTTOM = 'catalog_category_view.sidebar-bottom';
+    const CATEGORY_CONTENT_TOP = 'content-top';
+    const CATEGORY_CONTENT_BOTTOM = 'content-bottom';
+    const CATEGORY_PAGE_TOP = 'page-top';
+    const CATEGORY_PAGE_BOTTOM = 'footer-container';
+    const CATEGORY_SIDEBAR_TOP = 'sidebar-top';
+    const CATEGORY_SIDEBAR_BOTTOM = 'sidebar-bottom';
 
     public function toOptionArray()
     {
@@ -43,7 +43,7 @@ class Location implements ArrayInterface
                     [
                         'label' => __('Bottom of sidebar'),
                         'value' => self::CATEGORY_SIDEBAR_BOTTOM
-                    ],
+                    ]
                 ]
             ]
 

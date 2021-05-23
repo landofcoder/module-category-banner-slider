@@ -24,11 +24,13 @@
 namespace Lof\CategoryBannerSlider\Helper;
 
 use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Http\Context as HttpContext;
 use Magento\Framework\App\Helper\Context;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\ObjectManagerInterface;
 use Magento\Store\Model\StoreManager;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-
+use Lof\CategoryBannerSlider\Model\ResourceModel\CategoryBanner\CollectionFactory;
 
 /**
  * Class Data
@@ -42,12 +44,23 @@ class Data extends AbstractHelper
      */
     protected $_storeManager;
 
-    protected $_CategoryBannerFactory;
+    /**
+     * @var CollectionFactory
+     */
+    protected $_categoryBannerFactory;
+
+
+    /**
+     * @var ObjectManagerInterface
+     */
+    protected $_objectManager;
 
     /**
      * @var ScopeConfigInterface
      */
     protected $scopeConfig;
+
+    protected $HttpContext;
 
     const XML_PATH_AUTO_PLAY_SLIDER = 'lofcategorybannerslider/slider/auto_play_slider';
     const XML_PATH_SELECT_ANIMATION_SLIDER = 'lofcategorybannerslider/slider/auto_play_slider';
@@ -56,9 +69,23 @@ class Data extends AbstractHelper
      * Data constructor.
      * @param Context $context
      * @param StoreManager $_storeManager
+     * @param ScopeConfigInterface $scopeConfig
+     * @param CollectionFactory $categoryBannerFactory
+     * @param HttpContext $HttpContext
+     * @param ObjectManagerInterface $objectManager
      */
-    public function __construct(Context $context, StoreManager $_storeManager, ScopeConfigInterface $scopeConfig)
+    public function __construct(
+        Context $context,
+        StoreManager $_storeManager,
+        ScopeConfigInterface $scopeConfig,
+        CollectionFactory $categoryBannerFactory,
+        HttpContext $HttpContext,
+        ObjectManagerInterface $objectManager
+    )
     {
+        $this->_objectManager = $objectManager;
+        $this->HttpContext = $HttpContext;
+        $this->_categoryBannerFactory = $categoryBannerFactory;
         $this->scopeConfig = $scopeConfig;
         $this->_storeManager = $_storeManager;
         parent::__construct($context);
@@ -86,6 +113,11 @@ class Data extends AbstractHelper
     {
         $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         return $this->scopeConfig->getValue($xmlpath, $storeScope);
+    }
+
+    public function getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
     }
 
 
